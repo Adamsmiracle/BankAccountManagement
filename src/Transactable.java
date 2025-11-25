@@ -1,4 +1,3 @@
-package PACKAGE_NAME;
-
 public interface Transactable {
+    public boolean processTransaction(double amount, String type);
 }
