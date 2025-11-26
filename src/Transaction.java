@@ -1,9 +1,12 @@
 import java.time.format.DateTimeFormatter;
 
 public class Transaction {
+
+//    Static fields
     private static int transactionCounter;
 
-    private String transactionId;
+//    Private fields;
+    private final String transactionId;
     private String accountNumber;
     private String type;
     private double amount;
@@ -22,8 +25,26 @@ public class Transaction {
 
     }
 
+    //    METHODS
+    public void displayTransactionDetails() {
+        // Format the amount to show +/- sign and 2 decimal places
+        String sign = this.type.equals("Deposit") ? "+" : "-";
+        String formattedAmount = String.format("%s$%.2f", sign, this.amount);
+        String formattedBalance = String.format("$%.2f", this.balanceAfter);
+
+        // Formatting columns for console output, similar to Screenshot 8
+        System.out.printf("| %-6s | %-20s | %-10s | %-12s | %-10s |\n",
+                transactionId,
+                timestamp,
+                type,
+                formattedAmount,
+                formattedBalance);
+    }
 
 
+
+
+//    GETTERS AND SETTERS
     public static int getTransactionCounter() {
         return transactionCounter;
     }
@@ -67,19 +88,5 @@ public class Transaction {
 
 
 
-//    METHODS
-public void displayTransactionDetails() {
-    // Format the amount to show +/- sign and 2 decimal places
-    String sign = this.type.equals("DEPOSIT") ? "+" : "-";
-    String formattedAmount = String.format("%s$%.2f", sign, this.amount);
-    String formattedBalance = String.format("$%.2f", this.balanceAfter);
 
-    // Formatting columns for console output, similar to Screenshot 8
-    System.out.printf("| %-6s | %-20s | %-10s | %-12s | %-10s |\n",
-            transactionId,
-            timestamp,
-            type,
-            formattedAmount,
-            formattedBalance);
-}
 }

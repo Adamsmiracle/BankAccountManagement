@@ -1,14 +1,12 @@
-abstract class Account {
+public abstract class Account implements Transactable {
     public static int accountCounter = 0;
 
     //    private field
     private String accountNumber;
     private double balance;
-    private String status;
-
+    private String status = "inactive";
     private final Customer customer;
 
-//    static fields
 
     public Account(Customer customer) {
         accountCounter++;
@@ -27,6 +25,20 @@ abstract class Account {
             balance += amount;
             return true;
         }
+        return false;
+    }
+
+
+
+    // --- Overridden Deposit (optional, but standard for clarity) ---
+    // Note: The parent Account class already implements the deposit logic,
+    // but we can call it explicitly for clean structure.
+    public  boolean deposit(double amount) {
+        if (amount > 0){
+            this.balance += amount;
+            return true;
+        }
+        System.out.println("The amount must be an integer and also greater than 0");
         return false;
     }
 
@@ -78,10 +90,9 @@ abstract class Account {
 
 
 //    ABSTRACT METHODS
-    abstract void displayAccountDetail();
 
-    abstract void getAccountType();
-
+    public abstract String getAccountType();
 
 
+    public abstract void displayAccountDetails();
 }
