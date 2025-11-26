@@ -13,8 +13,6 @@ public abstract class Account implements Transactable {
         this.customer = customer;
         this.accountNumber = String.format("ACC%03d", accountCounter);
         this.balance = 0.0;
-        System.out.println("New Account created: " + this.accountNumber + " for " + customer.getName());
-
     }
 
 

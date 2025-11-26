@@ -50,9 +50,13 @@ public boolean withdraw(double amount) {
 //    Displaying the account detail;
     @Override
     public void displayAccountDetails() {
-        System.out.println("This is t" +
-                "he mockup of the display account detail: " + super.getAccountNumber() + " Balance: " +
-                super.getBalance());
+       System.out.println("✔ Account created successfully!");
+       System.out.println("Account Number: "+ getAccountNumber());
+       System.out.println("Customer: "+ getCustomer().getName());
+       System.out.println("Account Type: "+ getAccountType());
+       System.out.println("Initial Balance: "+ getBalance());
+       System.out.println("Interest Rate: "+ getInterestRate());
+       System.out.println("Minimum Balance: "+ getMinimumBalance());
     }
 
 
@@ -65,9 +69,13 @@ public boolean withdraw(double amount) {
     // --- Polymorphic Implementation of Transactable.processTransaction ---
 
 
+    public double getInterestRate() {
+        return interestRate;
+    }
 
-
-
+    public double getMinimumBalance() {
+        return minimumBalance;
+    }
 
     @Override
     public boolean deposit(double amount) {

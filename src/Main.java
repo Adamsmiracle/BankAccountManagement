@@ -12,6 +12,7 @@ public class Main{
 
 
         mainMenu();
+        createAccount();
 
     }
 
@@ -55,6 +56,94 @@ public class Main{
         System.out.println("5. Exit");
         System.out.println("\n");
         System.out.println("Enter choice: ");
+    }
+
+
+
+//    implementing the account creation logic
+    public static boolean createAccount(){
+        String name;
+        int age;
+        String contact;
+        String address;
+
+        int customerType;
+        int accountType;
+        double initialDeposit;
+
+
+        System.out.println("ACCOUNT CREATION");
+        System.out.println("-".repeat(65));
+        System.out.println("\n");
+
+//        Taking the customer detail input
+        System.out.print("Enter customer name: ");
+        name = scanner.nextLine();
+
+        System.out.print("Enter customer age: ");
+        age = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Enter customer contact: ");
+        contact = scanner.nextLine();
+
+        System.out.print("Enter customer address: ");
+        address = scanner.nextLine();
+        System.out.println("\n");
+
+//        Selecting account type;
+        System.out.println("Customer type: ");
+        System.out.println("1. Regular Customer (Standard banking services");
+        System.out.println("2. Premium Customer (Enhanced benefits, min balance %10,000");
+        System.out.println("Select type (1-2): ");
+        customerType = Integer.parseInt(scanner.nextLine());
+
+        System.out.println("Account type: ");
+        System.out.println("1. Savings Account (Interest: 3.5% Min Balance: %500");
+        System.out.println("2. Checking Account (Overdraft: $1,000, Monthly Fee: $10");
+        System.out.println("Select Type: (1-2): ");
+        accountType = Integer.parseInt(scanner.nextLine());
+        System.out.println("\n");
+
+        System.out.println("Enter initial deposit: ");
+        initialDeposit = scanner.nextDouble();
+        scanner.nextLine();
+
+//        Create the customer;
+        Customer customer = null;
+        switch (customerType) {
+            case 1:
+                // RegularCustomer extends Customer
+                customer = new RegularCustomer(name, age, contact, address);
+                break;
+            case 2:
+                // PremiumCustomer extends Customer
+                customer = new PremiumCustomer(name, age, contact, address);
+                break;
+            default:
+                System.out.println("Invalid Customer type selected. Aborting account creation.");
+                return false;
+        }
+
+
+//        Setting up the account;
+
+
+        if(initialDeposit <= 0) {
+            System.out.println("Initial deposit must be positive. Aborting account creation");
+        }
+        Account newAccount = null;
+        switch (accountType) {
+            case 1:
+                newAccount = new SavingsAccount(customer, initialDeposit);
+                break;
+            case 2:
+                newAccount = new CheckingAccount(customer, initialDeposit);
+        }
+
+        newAccount.displayAccountDetails();
+
+        return false;
     }
 
 }
