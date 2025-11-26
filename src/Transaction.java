@@ -9,7 +9,7 @@ public class Transaction {
     private double amount;
     private double balanceAfter;
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+    private static final DateTimeFormatter timestamp =
             DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm a");
 
     public Transaction(String accountNumber, String type, double amount, double balanceAfter) {
@@ -23,9 +23,6 @@ public class Transaction {
     }
 
 
-    public void displayTransactionDetails() {
-
-    }
 
     public static int getTransactionCounter() {
         return transactionCounter;
@@ -67,4 +64,22 @@ public class Transaction {
     public void setBalanceAfter(double balanceAfter) {
         this.balanceAfter = balanceAfter;
     }
+
+
+
+//    METHODS
+public void displayTransactionDetails() {
+    // Format the amount to show +/- sign and 2 decimal places
+    String sign = this.type.equals("DEPOSIT") ? "+" : "-";
+    String formattedAmount = String.format("%s$%.2f", sign, this.amount);
+    String formattedBalance = String.format("$%.2f", this.balanceAfter);
+
+    // Formatting columns for console output, similar to Screenshot 8
+    System.out.printf("| %-6s | %-20s | %-10s | %-12s | %-10s |\n",
+            transactionId,
+            timestamp,
+            type,
+            formattedAmount,
+            formattedBalance);
+}
 }
