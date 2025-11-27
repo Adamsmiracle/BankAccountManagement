@@ -13,10 +13,9 @@ public class SavingsAccount extends Account {
     public SavingsAccount(Customer customer, double initialDeposit) {
         // Call the parent class constructor to set customer and generate account number
         super(customer);
-
-
         this.interestRate = 0.035;
         this.minimumBalance = 500.00;
+        this.setStatus("Active");
 
         // Set initial balance. The super.deposit() method handles validation and update.
         if (initialDeposit >= this.minimumBalance ) {
@@ -70,7 +69,7 @@ public boolean withdraw(double amount) {
 
 
     public double getInterestRate() {
-        return interestRate;
+        return interestRate*100;
     }
 
     public double getMinimumBalance() {

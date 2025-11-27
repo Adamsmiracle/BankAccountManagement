@@ -6,17 +6,24 @@ public class CheckingAccount extends Account{
     private double monthlyFee;
 
 
-    public CheckingAccount(Customer customer, double InitialDeposite) {
+    public CheckingAccount(Customer customer, double InitialDeposit) {
         super(customer);
         this.overDraftLimit = 1000.00;
         this.monthlyFee = 10.00;
+        this.setStatus("Active");
+        setBalance(InitialDeposit);
     }
 
 //    overriding the displayAccountDetailMethod
     @Override
     public void displayAccountDetails() {
-    System.out.println("This is the mockup of the display account detail: " + super.getAccountNumber() + " Balance: " +
-            super.getBalance() + "CHECKING ACCOUNT");
+        System.out.println("✔ Account created successfully!");
+        System.out.println("Account Number: "+ getAccountNumber());
+        System.out.println("Customer: "+ getCustomer().getName());
+        System.out.println("Account Type: "+ getAccountType());
+        System.out.println("Initial Balance: "+ getBalance());
+        System.out.println("OverdraftLimit: "+ getOverDraftLimit());
+        System.out.println("Monthly fee: "+ getMonthlyFee());
     }
 
     @Override
@@ -45,6 +52,10 @@ public class CheckingAccount extends Account{
 
     }
 
+    public double getMonthlyFee() {
+        return monthlyFee;
+    }
+
     public double getOverDraftLimit() {
         return overDraftLimit;
     }
@@ -54,14 +65,12 @@ public class CheckingAccount extends Account{
         if (amount < 0)
             return  false;
         if (Objects.equals(type, "Deposit")){
-            this.setBalance(this.getBalance() + amount);
+            this.deposit(amount);
             return true;
         } else if (Objects.equals(type, "Withdrawal")) {
-            if(this.getBalance() - amount >= -overDraftLimit) {
-                this.setBalance(this.getBalance() - amount);
-                return true;
+            this.withdraw(amount);
+            return true;
             }
-        }
         return false;
     }
 }

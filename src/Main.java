@@ -10,10 +10,75 @@ public class Main{
         accountManager = new AccountManager();
         transactionManager =  new TransactionManager();
 
-
+//        MAIN LOOP
         mainMenu();
         createAccount();
 
+    }
+
+
+    private static void runMainMenu() {
+        int choice = -1;
+        do {
+            mainMenu();
+            // Basic input validation [cite: 453]
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
+                executeChoice(choice);
+            } else {
+                System.out.println("\n*** Invalid input. Please enter a number (1-5). ***\n");
+                scanner.nextLine(); // Consume invalid input
+                choice = -1;
+            }
+        } while (choice != 5);
+    }
+
+    private static void executeChoice(int choice) {
+        switch (choice) {
+            case 1:
+                // Logic for US-2: Create Account
+                // Delegates to a method to collect customer/account details and call accountManager.addAccount()
+                System.out.println("\n--- ACCOUNT CREATION ---"); // [cite: 105]
+                // TODO: Implement createAccount logic here (or in a separate helper class)
+                createAccount();
+                break;
+            case 2:
+                // Logic for US-1: View Accounts
+                // Calls accountManager.viewAllAccounts()
+                System.out.println("\n--- ACCOUNT LISTING ---"); // [cite: 46]
+                accountManager.viewAllAccounts();
+                break;
+            case 3:
+                // Logic for US-3: Process Transaction
+                // Delegates to a method to find account, ask for deposit/withdrawal details,
+                // call account.withdraw/deposit, and transactionManager.addTransaction()
+                System.out.println("\n--- PROCESS TRANSACTION ---"); // [cite: 188]
+                System.out.println("Select the type of transaction you are doing");
+                System.out.println("1. Deposit");
+                System.out.println("2. Withdrawal: ");
+                int transactionType = Integer.parseInt(scanner.nextLine());
+                if
+                break;
+            case 4:
+                // Logic for US-4: View Transaction History
+                // Delegates to a method to ask for account number and call transactionManager.viewTransactionsByAccount()
+                System.out.println("\n--- VIEW TRANSACTION HISTORY ---"); // [cite: 266]
+                // TODO: Implement viewTransactionHistory logic here
+                break;
+            case 5:
+                // Exits the loop, allowing the main method to finish [cite: 321]
+                System.out.println("Exiting application...");
+                break;
+            default:
+                System.out.println("\n*** Invalid choice. Please select an option between 1 and 5. ***\n");
+        }
+
+        // Wait for user before showing the menu again (mimics the console output style) [cite: 99]
+        if (choice != 5 && choice >= 1 && choice <= 4) {
+            System.out.print("\nPress Enter to continue...");
+            scanner.nextLine();
+        }
     }
 
 
@@ -105,7 +170,7 @@ public class Main{
         accountType = Integer.parseInt(scanner.nextLine());
         System.out.println("\n");
 
-        System.out.println("Enter initial deposit: ");
+        System.out.print("Enter initial deposit: ");
         initialDeposit = scanner.nextDouble();
         scanner.nextLine();
 
@@ -142,6 +207,8 @@ public class Main{
         }
 
         newAccount.displayAccountDetails();
+        accountManager.addAccount(newAccount);
+        accountManager.viewAllAccounts();
 
         return false;
     }

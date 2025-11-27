@@ -1,5 +1,5 @@
 public class AccountManager {
-    private final Account[] accounts = new Account[50];
+    private  Account[] accounts = new Account[50];
     private int accountCount = 0;
     private double totalBalance = 0;
 
@@ -25,34 +25,50 @@ public class AccountManager {
     }
 
 
+    public void viewAllAccounts() {
+        System.out.println("\n--- ACCOUNT LISTING ---");
+        System.out.printf("| %-8s | %-25s | %-12s | %-14s | %-8s |\n",
+                "ACC NO", "CUSTOMER NAME", "TYPE", "BALANCE", "STATUS");
+        System.out.println("-".repeat(79));
 
-public void viewAllAccounts(){
-
-        System.out.println("ACCOUNT LISTING");
-        System.out.println("-".repeat(60));
-    System.out.printf("| %-6s | %-24s | %-10s | %-12s | %-8s |\n",
-            "ACC NO", "CUSTOMER NAME", "TYPE", "BALANCE", "STATUS");
-
-        for (Account account: accounts){
+        // Iterate only up to the actual number of accounts stored [cite: 409]
+        for (int i = 0; i < accountCount; i++) {
+            Account account = accounts[i];
             totalBalance += account.getBalance();
-            double interestOrOverDraftLimit = account.getAccountType().equalsIgnoreCase("Saving")? ((SavingsAccount) account).calculateInterest():
-                    ((CheckingAccount) account).getOverDraftLimit();
-            System.out.printf("| %-6s | %-24s | %-10s | $%-11.2f | %-8s |\n",
+
+            // Line 1: Main Account Details
+            System.out.printf("| %-8s | %-25s | %-12s | $%,-13.2f | %-8s |\n",
                     account.getAccountNumber(),
                     account.getCustomer().getName(),
                     account.getAccountType(),
                     account.getBalance(),
                     account.getStatus()
             );
-            System.out.printf("| %-6s | %-34s | %-20s |\n",
-                    "",
-                    account.getAccountType().equalsIgnoreCase("Saving")?
-                            "Interest Rate: " + interestOrOverDraftLimit: "Overdraft: " + interestOrOverDraftLimit,
-                    account.getAccountType().equalsIgnoreCase("Saving")?
-                            "Min Balance: " + account.getBalance(): "Monthly Fee: " + ((CheckingAccount) account).applyMonthlyFee());
-            System.out.println("-".repeat(60));
 
+            // Line 2: Type-Specific Details using instanceof or getAccountType() (Less ideal, but matches structure)
+            if (account instanceof SavingsAccount savingsAccount) {
+                // Type-specific display uses getters for the properties [cite: 333]
+                System.out.printf("| %-8s | Interest Rate: %.1f%% | Min Balance: $%,.2f |\n",
+                        "",
+                        savingsAccount.getInterestRate(), // Assume getter for 3.5
+                        savingsAccount.getMinimumBalance() // Assume getter for 500.00
+                );
+            } else if (account instanceof CheckingAccount checkingAccount) {
+                // Type-specific display uses getters for the properties [cite: 334]
+                // Note: The Monthly Fee should be 0 for Premium customers, checkingAccount.getMonthlyFee() should handle this logic.
+                System.out.printf("| %-8s | Overdraft Limit: $%,.2f | Monthly Fee: $%,.2f |\n",
+                        "",
+                        checkingAccount.getOverDraftLimit(),
+                        checkingAccount.getMonthlyFee()
+                );
+            }
+            System.out.println("-".repeat(79));
         }
+
+        // Display required totals
+        System.out.printf("\nTotal Accounts: %d\n", getAccountCount()); //
+        System.out.printf("Total Bank Balance: $%,.2f\n", getTotalBalance()); //
+        System.out.print("\nPress Enter to continue...");
     }
 
 

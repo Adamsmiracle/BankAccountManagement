@@ -14,7 +14,6 @@ public class TransactionManager {
         }
     }
 
-
     public void viewTransactionsByAccount(String accountNumber) {
         System.out.println("\n--- TRANSACTION HISTORY FOR ACCOUNT: " + accountNumber + " ---");
 
@@ -46,7 +45,6 @@ public class TransactionManager {
             System.out.println("-".repeat(65));
         }
     }
-
 
 
     public double calculateTotalDeposits() {
