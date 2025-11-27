@@ -1,4 +1,4 @@
-import java.time.format.DateTimeFormatter;
+// import java.time.format.DateTimeFormatter;
 
 public class TransactionManager {
 
@@ -68,20 +68,31 @@ public class TransactionManager {
         // 2. Iterate and Filter
         boolean foundTransactions = false;
 
+        int matchedCount = 0;
+        double totalDeposits = 0.0;
+        double totalWithdrawals = 0.0;
+
         for (int i = 0; i < transactionCount; i++) {
             Transaction t = transactions[i];
 
             if (t.getAccountNumber().equalsIgnoreCase(accountNumber)) {
-                // FIX: Print the details directly using the table format
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm a");
+                // Print the details directly using the table format
                 System.out.printf("| %-6s | %-20s | %-10s | $%-11.2f | $%-9.2f |\n",
                         t.getTransactionId(),
-                        "12 Nov 2025", // Assuming this returns a formatted string
+                        t.getFormattedTimestamp(),
                         t.getType().toUpperCase(),
                         t.getAmount(),
-                        t.getBalanceAfter() // Assuming you have a getter for the balance after the transaction
+                        t.getBalanceAfter()
                 );
+
+                matchedCount++;
                 foundTransactions = true;
+
+                if (t.getType().equalsIgnoreCase("DEPOSIT") || t.getType().equalsIgnoreCase("Deposit")) {
+                    totalDeposits += t.getAmount();
+                } else if (t.getType().equalsIgnoreCase("WITHDRAWAL") || t.getType().equalsIgnoreCase("Withdrawal")) {
+                    totalWithdrawals += t.getAmount();
+                }
             }
         }
 
@@ -91,6 +102,13 @@ public class TransactionManager {
         if (!foundTransactions) {
             System.out.println("| No transactions found for this account.                             |");
             System.out.println("-".repeat(65));
+        } else {
+            // Print summary totals similar to screenshot: count, total deposits, total withdrawals, net change
+            System.out.printf("\nTotal Transactions: %d\n", matchedCount);
+            System.out.printf("Total Deposits: $%,.2f\n", totalDeposits);
+            System.out.printf("Total Withdrawals: $%,.2f\n", totalWithdrawals);
+            double net = totalDeposits - totalWithdrawals;
+            System.out.printf("Net Change: $%,.2f\n", net);
         }
     }
 

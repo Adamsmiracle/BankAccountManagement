@@ -2,7 +2,7 @@
 //
 //public class Mfain {
 //    // Manager classes use composition to hold and manipulate data [cite: 478]
-//    private static AccountManager accountManager = new AccountManager();
+//    private static AccountManager accountManager = AccountManager.getInstance();
 //    private static TransactionManager transactionManager = new TransactionManager();
 //    private static Scanner scanner = new Scanner(System.in);
 //

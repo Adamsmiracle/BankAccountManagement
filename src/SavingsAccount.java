@@ -47,9 +47,10 @@ public class SavingsAccount extends Account {
        System.out.println("Account Number: "+ getAccountNumber());
        System.out.println("Customer: "+ getCustomer().getName());
        System.out.println("Account Type: "+ getAccountType());
-       System.out.println("Initial Balance: "+ getBalance());
-       System.out.println("Interest Rate: "+ getInterestRate());
-       System.out.println("Minimum Balance: "+ getMinimumBalance());
+    System.out.printf("Initial Balance: $%,.2f\n", getBalance());
+    System.out.printf("Interest Rate: %.1f%%\n", getInterestRate());
+    System.out.printf("Minimum Balance: $%,.2f\n", getMinimumBalance());
+    System.out.printf("Status: "+ getStatus());
     }
 
 
@@ -111,8 +112,6 @@ public class SavingsAccount extends Account {
                 resultingBalance // This is the balance AFTER the update
         );
         manager.addTransaction(newTransaction);
-
-        System.out.printf("✅ Withdrawal successful. New balance: $%.2f\n", resultingBalance);
         return newTransaction;
     }
 

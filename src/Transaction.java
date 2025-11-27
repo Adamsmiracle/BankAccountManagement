@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Transaction {
@@ -11,8 +12,8 @@ public class Transaction {
     private String type;
     private double amount;
     private double balanceAfter;
-
-    private static final DateTimeFormatter timestamp =
+        private final LocalDateTime timestamp;
+        private static final DateTimeFormatter TIMESTAMP_FORMATTER =
             DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm a");
 
     public Transaction(String accountNumber, String type, double amount, double balanceAfter) {
@@ -22,6 +23,7 @@ public class Transaction {
         this.type = type;
         this.amount = amount;
         this.balanceAfter = balanceAfter;
+        this.timestamp = LocalDateTime.now();
 
     }
 
@@ -32,13 +34,17 @@ public class Transaction {
         String formattedAmount = String.format("%s$%.2f", sign, this.amount);
         String formattedBalance = String.format("$%.2f", this.balanceAfter);
 
-        // Formatting columns for console output, similar to Screenshot 8
+        // Formatting columns for console output
         System.out.printf("| %-6s | %-20s | %-10s | %-12s | %-10s |\n",
                 transactionId,
-                timestamp,
+                getFormattedTimestamp(),
                 type,
                 formattedAmount,
                 formattedBalance);
+    }
+
+    public String getFormattedTimestamp() {
+        return this.timestamp.format(TIMESTAMP_FORMATTER);
     }
 
 

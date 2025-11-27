@@ -23,15 +23,21 @@ public class CheckingAccount extends Account{
         System.out.println("Customer: "+ getCustomer().getName());
         System.out.println("Account Type: "+ getAccountType());
         System.out.println("Initial Balance: "+ getBalance());
-        System.out.println("OverdraftLimit: "+ getOverDraftLimit());
-        System.out.println("Monthly fee: "+ getMonthlyFee());
+        System.out.println("OverdraftLimit: $" + String.format("%,.2f", getOverDraftLimit()));
+        // Show monthly fee or indicate it's waived for Premium customers
+        if (getCustomer() instanceof PremiumCustomer && ((PremiumCustomer) getCustomer()).hasWaivedFees()) {
+            System.out.println("Monthly fee: Waived (Premium customer)");
+        } else {
+            System.out.printf("Monthly fee: $%,.2f\n", getMonthlyFee());
+        }
+        System.out.println("Status: "+ getStatus());
     }
 
 
     @Override
     public Transaction deposit(double amount) {
         if (amount <= 0 ) {
-            System.out.println("The amount must be a positve value");
+            System.out.println("The amount must be a positive value");
             return null;
         }
 
@@ -87,12 +93,18 @@ public class CheckingAccount extends Account{
 
 
     public boolean applyMonthlyFee(){
+        // Waive fee for Premium customers that have fees waived
+        Customer c = getCustomer();
+        if (c instanceof PremiumCustomer && ((PremiumCustomer) c).hasWaivedFees()) {
+            System.out.println("Monthly fee waived for Premium customer.");
+            return true;
+        }
+
         if (super.getBalance() - monthlyFee >= -overDraftLimit) {
-        super.setBalance(super.getBalance() - monthlyFee);
-        return true;
+            super.setBalance(super.getBalance() - monthlyFee);
+            return true;
         }
         return false;
-
     }
 
     public double getMonthlyFee() {

@@ -1,5 +1,16 @@
 public class AccountManager {
+    // Singleton instance so the whole app uses a single account store
+    private static final AccountManager INSTANCE = new AccountManager();
+
+    public static AccountManager getInstance() {
+        return INSTANCE;
+    }
+
     private  Account[] accounts = new Account[50];
+    
+    // Make constructor private to enforce singleton usage
+    private AccountManager() {
+    }
     private int accountCount = 0;
     private double totalBalance = 0;
 
