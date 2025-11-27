@@ -4,6 +4,7 @@ public class CheckingAccount extends Account{
 
     private double overDraftLimit;
     private double monthlyFee;
+    private TransactionManager manager = new TransactionManager();
 
 
     public CheckingAccount(Customer customer, double InitialDeposit) {
@@ -26,10 +27,6 @@ public class CheckingAccount extends Account{
         System.out.println("Monthly fee: "+ getMonthlyFee());
     }
 
-    @Override
-    public Transaction deposit(double amount, TransactionManager manager) {
-        return null;
-    }
 
     @Override
     public Transaction deposit(double amount) {
@@ -58,18 +55,33 @@ public class CheckingAccount extends Account{
         return "Checking";
     }
 
-    @Override
-    public Transaction withdraw(double amount, TransactionManager manager) {
-        return null;
-    }
 
     @Override
-    public boolean withdraw(double amount){
+    public Transaction withdraw(double amount){
         if (super.getBalance() - amount >= -overDraftLimit) {
-            super.withdraw(amount);
-            return true;
+            this.setBalance(this.getBalance() - amount);
         }
-        return  false;
+
+
+        if (amount <= 0) {
+            System.out.println("Withdrawal amount must be positive.");
+            return null; // Failure: return null
+        }
+
+
+        // SUCCESS PATH
+
+        // 4. CREATE and LOG TRANSACTION
+        Transaction newTransaction = new Transaction(
+                this.getAccountNumber(),
+                "Withdrawal",
+                amount,
+                this.getBalance()
+        );
+        manager.addTransaction(newTransaction);
+
+        System.out.printf("✅ Withdrawal successful. New balance: $%.2f\n", this.getBalance());
+        return newTransaction;
     }
 
 

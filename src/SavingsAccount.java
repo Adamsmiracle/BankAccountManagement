@@ -37,40 +37,7 @@ public class SavingsAccount extends Account {
 
 
 //    The overridden withdraw method
-@Override
-public Transaction withdraw(double amount, TransactionManager manager) {
 
-    if (amount <= 0) {
-        System.out.println("Withdrawal amount must be positive.");
-        return null; // Failure: return null
-    }
-    double resultingBalance = this.getBalance() - amount;
-
-    if (resultingBalance < this.minimumBalance) {
-        System.out.printf(
-                " Withdrawal failed. Resulting balance ($%.2f)" +
-                        " would violate the minimum balance requirement ($%.2f).\n",
-                resultingBalance,
-                this.minimumBalance
-        );
-        return null;
-    }
-
-    // SUCCESS PATH
-    super.setBalance(resultingBalance);
-
-    // 4. CREATE and LOG TRANSACTION
-    Transaction newTransaction = new Transaction(
-            this.getAccountNumber(),
-            "Withdrawal",
-            amount,
-            resultingBalance // This is the balance AFTER the update
-    );
-    manager.addTransaction(newTransaction);
-
-    System.out.printf("✅ Withdrawal successful. New balance: $%.2f\n", resultingBalance);
-    return newTransaction;
-}
 
 
 //    Displaying the account detail;
@@ -84,6 +51,8 @@ public Transaction withdraw(double amount, TransactionManager manager) {
        System.out.println("Interest Rate: "+ getInterestRate());
        System.out.println("Minimum Balance: "+ getMinimumBalance());
     }
+
+
 
     @Override
     public Transaction deposit(double amount) {
@@ -107,6 +76,43 @@ public Transaction withdraw(double amount, TransactionManager manager) {
         TransactionManager manager = new TransactionManager();
         manager.addTransaction(newTransaction);
         System.out.printf("✅ Deposit of $%,.2f successful. New balance: $%,.2f\n", amount, this.getBalance());
+        return newTransaction;
+    }
+
+
+
+    @Override
+    public Transaction withdraw(double amount) {
+
+        if (amount <= 0) {
+            System.out.println("Withdrawal amount must be positive.");
+            return null; // Failure: return null
+        }
+        double resultingBalance = this.getBalance() - amount;
+
+        if (resultingBalance < this.minimumBalance) {
+            System.out.printf(
+                    " Withdrawal failed. Resulting balance ($%.2f)" +
+                            " would violate the minimum balance requirement ($%.2f).\n",
+                    resultingBalance,
+                    this.minimumBalance
+            );
+            return null;
+        }
+
+        // SUCCESS PATH
+        super.setBalance(resultingBalance);
+
+        // 4. CREATE and LOG TRANSACTION
+        Transaction newTransaction = new Transaction(
+                this.getAccountNumber(),
+                "Withdrawal",
+                amount,
+                resultingBalance // This is the balance AFTER the update
+        );
+        manager.addTransaction(newTransaction);
+
+        System.out.printf("✅ Withdrawal successful. New balance: $%.2f\n", resultingBalance);
         return newTransaction;
     }
 

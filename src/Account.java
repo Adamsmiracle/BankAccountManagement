@@ -20,21 +20,10 @@ public abstract class Account implements Transactable {
 
 
 
-    public  Transaction deposit(double amount) {
-        return null;
-    }
+    public abstract  Transaction deposit(double amount);
 
 
-    public boolean withdraw(double amount){
-        if (amount > 0) {
-            if (balance >= amount) {
-                balance -= amount;
-                System.out.println(amount+ " has been withdrawn balance balance is: "+ balance );
-                return true;
-            }
-        }
-        return false;
-    }
+    public abstract Transaction withdraw(double amount);
 
 
 
@@ -77,9 +66,7 @@ public abstract class Account implements Transactable {
 
 
     //    The overridden withdraw method
-    public abstract Transaction withdraw(double amount, TransactionManager manager);
 
     public abstract void displayAccountDetails();
 
-    public abstract Transaction deposit(double amount, TransactionManager manager);
 }

@@ -45,7 +45,7 @@ public class Main{
                 accountManager.viewAllAccounts();
                 break;
             case 3:
-                processTransaction();
+                processTransactionMain();
 
                 break;
 
@@ -216,55 +216,67 @@ public class Main{
     }
 
 
-    public static boolean processTransaction(){
+    public static boolean processTransactionMain(){
         String accountNumber = "";
         String transactionType = "";
         double amount = 0.00;
+
+        // 1. INPUT AND ACCOUNT RETRIEVAL
         System.out.println("\nPROCESS TRANSACTION");
         System.out.println("-".repeat(63));
         System.out.println("\n");
-//        Calling the getAccountNumber function
+
+        // Calling the getAccountNumber function (Assumed to be defined elsewhere)
         accountNumber = getValidAccountNumber();
 
         Account account = accountManager.findAccount(accountNumber);
+
         System.out.println("\n");
         System.out.println("Account Details:");
         System.out.println("Customer: "+ account.getCustomer().getName());
-        System.out.println("AccountType: "+ account.getAccountType());
-        System.out.println("Current Balance: $"+ account.getBalance());
+        System.out.println("Account Type: "+ account.getAccountType());
+        // Display the original balance before processing
+        double previousBalance = account.getBalance();
+        System.out.println("Current Balance: $"+ previousBalance);
         System.out.println("\n");
 
-
-        System.out.println("TransactionType: ");
+        // 2. TRANSACTION TYPE INPUT
+        System.out.println("Transaction type: ");
         System.out.println("1. Deposit");
-        System.out.println("2. Withdrawal: ");
+        System.out.println("2. Withdrawal");
         System.out.println("\n");
-        System.out.println("Select type (1-2): ");
+        System.out.print("Select type (1-2): ");
+
         int transactionTypeInput = scanner.nextInt();
         scanner.nextLine();
 
-//        Input of the transaction type
         if (transactionTypeInput == 1){
             transactionType = "Deposit";
         } else {
             transactionType = "Withdrawal";
         }
 
-
-        System.out.println("Enter amount: ");
+        System.out.print("Enter amount: $");
         amount = scanner.nextDouble();
         scanner.nextLine();
 
-        account.processTransaction(amount, transactionType);
+        // 3. ATTEMPT TRANSACTION
+        // NOTE: This call is the key change. We assume processTransaction
+        // attempts the operation and returns the Transaction object (or null on failure).
+        boolean transactions = account.processTransaction(amount, transactionType);
 
 
+        // --- TRANSACTION CONFIRMATION ---
+        System.out.println("\n");
+        System.out.println("TRANSACTION CONFIRMATION");
+        System.out.println("-".repeat(63));
+
+        TransactionManager manager = new TransactionManager();
+        manager.viewTransactionsByAccount(accountNumber);
 
         return false;
     }
 
-
-
-//    Account number extra and validation
 
 
 
