@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.Scanner;
 
 public class Main{
@@ -11,8 +12,8 @@ public class Main{
         transactionManager =  new TransactionManager();
 
 //        MAIN LOOP
-        mainMenu();
-        createAccount();
+        seedInitialData();
+        runMainMenu();
 
     }
 
@@ -20,8 +21,7 @@ public class Main{
     private static void runMainMenu() {
         int choice = -1;
         do {
-            mainMenu();
-            // Basic input validation [cite: 453]
+           mainMenu();
             if (scanner.hasNextInt()) {
                 choice = scanner.nextInt();
                 scanner.nextLine(); // Consume newline
@@ -34,31 +34,21 @@ public class Main{
         } while (choice != 5);
     }
 
+
+
     private static void executeChoice(int choice) {
         switch (choice) {
             case 1:
-                // Logic for US-2: Create Account
-                // Delegates to a method to collect customer/account details and call accountManager.addAccount()
-                System.out.println("\n--- ACCOUNT CREATION ---"); // [cite: 105]
-                // TODO: Implement createAccount logic here (or in a separate helper class)
                 createAccount();
                 break;
             case 2:
-                // Logic for US-1: View Accounts
-                // Calls accountManager.viewAllAccounts()
-                System.out.println("\n--- ACCOUNT LISTING ---"); // [cite: 46]
                 accountManager.viewAllAccounts();
                 break;
             case 3:
-                // Logic for US-3: Process Transaction
-                // Delegates to a method to find account, ask for deposit/withdrawal details,
-                // call account.withdraw/deposit, and transactionManager.addTransaction()
-                System.out.println("\n--- PROCESS TRANSACTION ---"); // [cite: 188]
-                System.out.println("Select the type of transaction you are doing");
-                System.out.println("1. Deposit");
-                System.out.println("2. Withdrawal: ");
-                int transactionType = Integer.parseInt(scanner.nextLine());
+                processTransaction();
+
                 break;
+
             case 4:
                 // Logic for US-4: View Transaction History
                 // Delegates to a method to ask for account number and call transactionManager.viewTransactionsByAccount()
@@ -75,7 +65,7 @@ public class Main{
 
         // Wait for user before showing the menu again (mimics the console output style) [cite: 99]
         if (choice != 5 && choice >= 1 && choice <= 4) {
-            System.out.print("\nPress Enter to continue...");
+            System.out.print("\nPress Enter to continue... ");
             scanner.nextLine();
         }
     }
@@ -119,7 +109,10 @@ public class Main{
         System.out.println("4. View Transactions");
         System.out.println("5. Exit");
         System.out.println("\n");
-        System.out.println("Enter choice: ");
+        System.out.print("Enter choice: ");
+
+
+
     }
 
 
@@ -144,9 +137,19 @@ public class Main{
         System.out.print("Enter customer name: ");
         name = scanner.nextLine();
 
-        System.out.print("Enter customer age: ");
-        age = scanner.nextInt();
-        scanner.nextLine();
+//        input age checker
+        while (true) {
+            System.out.print("Enter customer age: ");
+
+            if (scanner.hasNextInt()) {
+                age = scanner.nextInt();
+                scanner.nextLine(); // consume the leftover newline
+                break;  // valid input, exit loop
+            } else {
+                System.out.println("Invalid input. Please enter an integer.");
+                scanner.nextLine(); // consume the invalid input
+            }
+        }
 
         System.out.print("Enter customer contact: ");
         contact = scanner.nextLine();
@@ -212,4 +215,84 @@ public class Main{
         return false;
     }
 
+
+    public static boolean processTransaction(){
+        String accountNumber = "";
+        String transactionType = "";
+        double amount = 0.00;
+        System.out.println("\nPROCESS TRANSACTION");
+        System.out.println("-".repeat(63));
+        System.out.println("\n");
+//        Calling the getAccountNumber function
+        accountNumber = getValidAccountNumber();
+
+        Account account = accountManager.findAccount(accountNumber);
+        System.out.println("\n");
+        System.out.println("Account Details:");
+        System.out.println("Customer: "+ account.getCustomer().getName());
+        System.out.println("AccountType: "+ account.getAccountType());
+        System.out.println("Current Balance: $"+ account.getBalance());
+        System.out.println("\n");
+
+
+        System.out.println("TransactionType: ");
+        System.out.println("1. Deposit");
+        System.out.println("2. Withdrawal: ");
+        System.out.println("\n");
+        System.out.println("Select type (1-2): ");
+        int transactionTypeInput = scanner.nextInt();
+        scanner.nextLine();
+
+//        Input of the transaction type
+        if (transactionTypeInput == 1){
+            transactionType = "Deposit";
+        } else {
+            transactionType = "Withdrawal";
+        }
+
+
+        System.out.println("Enter amount: ");
+        amount = scanner.nextDouble();
+        scanner.nextLine();
+
+        account.processTransaction(amount, transactionType);
+
+
+
+        return false;
+    }
+
+
+
+//    Account number extra and validation
+
+
+
+    public static String getValidAccountNumber() {
+        String accountNumber;
+        // Regex: ^ means start of string, ACC matches "ACC" literally,
+        // \d{3} matches exactly three digits, $ means end of string.
+        final String ACCOUNT_REGEX = "^ACC\\d{3}$";
+
+        while (true) {
+            System.out.print("Enter Account Number (e.g., ACC001): ");
+
+            // 1. Get the entire line of input
+            accountNumber = scanner.nextLine().trim().toUpperCase();
+
+            // 2. Validate the input using regex
+            if (accountNumber.matches(ACCOUNT_REGEX)) {
+                // Valid input matches the required format
+                return accountNumber; // Exit the loop and return the valid number
+            } else {
+                // Invalid input
+                System.out.println("*** Invalid format. Account number must be in the format ACC followed by three digits (e.g., ACC012). ***");
+                // No need for scanner.nextLine() here, as it was already consumed by the input
+            }
+        }
+    }
+
 }
+
+
+

@@ -17,27 +17,11 @@ public abstract class Account implements Transactable {
 
 
 
-    //    NORMAL METHODS
-    public boolean deposite(double amount){
-        if (amount > 0) {
-            balance += amount;
-            return true;
-        }
-        return false;
-    }
 
 
 
-    // --- Overridden Deposit (optional, but standard for clarity) ---
-    // Note: The parent Account class already implements the deposit logic,
-    // but we can call it explicitly for clean structure.
-    public  boolean deposit(double amount) {
-        if (amount > 0){
-            this.balance += amount;
-            return true;
-        }
-        System.out.println("The amount must be an integer and also greater than 0");
-        return false;
+    public  Transaction deposit(double amount) {
+        return null;
     }
 
 
@@ -92,5 +76,10 @@ public abstract class Account implements Transactable {
     public abstract String getAccountType();
 
 
+    //    The overridden withdraw method
+    public abstract Transaction withdraw(double amount, TransactionManager manager);
+
     public abstract void displayAccountDetails();
+
+    public abstract Transaction deposit(double amount, TransactionManager manager);
 }

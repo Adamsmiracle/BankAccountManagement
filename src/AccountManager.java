@@ -26,10 +26,11 @@ public class AccountManager {
 
 
     public void viewAllAccounts() {
-        System.out.println("\n--- ACCOUNT LISTING ---");
+        System.out.println("\n ACCOUNT LISTING ");
+        System.out.println("-".repeat(83));
         System.out.printf("| %-8s | %-25s | %-12s | %-14s | %-8s |\n",
                 "ACC NO", "CUSTOMER NAME", "TYPE", "BALANCE", "STATUS");
-        System.out.println("-".repeat(79));
+        System.out.println("-".repeat(83));
 
         // Iterate only up to the actual number of accounts stored [cite: 409]
         for (int i = 0; i < accountCount; i++) {
@@ -45,30 +46,26 @@ public class AccountManager {
                     account.getStatus()
             );
 
-            // Line 2: Type-Specific Details using instanceof or getAccountType() (Less ideal, but matches structure)
+//            Line two of the output formatter
             if (account instanceof SavingsAccount savingsAccount) {
-                // Type-specific display uses getters for the properties [cite: 333]
                 System.out.printf("| %-8s | Interest Rate: %.1f%% | Min Balance: $%,.2f |\n",
                         "",
-                        savingsAccount.getInterestRate(), // Assume getter for 3.5
-                        savingsAccount.getMinimumBalance() // Assume getter for 500.00
+                        savingsAccount.getInterestRate(),
+                        savingsAccount.getMinimumBalance()
                 );
             } else if (account instanceof CheckingAccount checkingAccount) {
-                // Type-specific display uses getters for the properties [cite: 334]
-                // Note: The Monthly Fee should be 0 for Premium customers, checkingAccount.getMonthlyFee() should handle this logic.
                 System.out.printf("| %-8s | Overdraft Limit: $%,.2f | Monthly Fee: $%,.2f |\n",
                         "",
                         checkingAccount.getOverDraftLimit(),
                         checkingAccount.getMonthlyFee()
                 );
             }
-            System.out.println("-".repeat(79));
+            System.out.println("-".repeat(83));
         }
 
         // Display required totals
         System.out.printf("\nTotal Accounts: %d\n", getAccountCount()); //
         System.out.printf("Total Bank Balance: $%,.2f\n", getTotalBalance()); //
-        System.out.print("\nPress Enter to continue...");
     }
 
 

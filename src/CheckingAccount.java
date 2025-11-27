@@ -27,11 +27,41 @@ public class CheckingAccount extends Account{
     }
 
     @Override
+    public Transaction deposit(double amount, TransactionManager manager) {
+        return null;
+    }
+
+    @Override
+    public Transaction deposit(double amount) {
+        if (amount <= 0 ) {
+            System.out.println("The amount must be a positve value");
+            return null;
+        }
+
+//        update the account balance;
+        this.setBalance(this.getBalance() + amount);
+
+//        Logging the transaction
+        Transaction newTransaction = new Transaction(
+                this.getAccountNumber(),
+                "Deposit",
+                amount,
+                this.getBalance()
+        );
+        TransactionManager manager = new TransactionManager();
+        return newTransaction;
+
+    }
+
+    @Override
     public String getAccountType(){
         return "Checking";
     }
 
-
+    @Override
+    public Transaction withdraw(double amount, TransactionManager manager) {
+        return null;
+    }
 
     @Override
     public boolean withdraw(double amount){

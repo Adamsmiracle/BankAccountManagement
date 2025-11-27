@@ -5,6 +5,7 @@ public class SavingsAccount extends Account {
     // --- Private Fields
     private final double interestRate;
     private final double minimumBalance;
+    private final TransactionManager manager = new TransactionManager();
 
     // Status can be managed by the parent class, but is included here for clarity
 
@@ -37,14 +38,40 @@ public class SavingsAccount extends Account {
 
 //    The overridden withdraw method
 @Override
-public boolean withdraw(double amount) {
-    if (amount < this.minimumBalance){
-        System.out.println("Insufficient funds.");
-        return false;
+public Transaction withdraw(double amount, TransactionManager manager) {
+
+    if (amount <= 0) {
+        System.out.println("Withdrawal amount must be positive.");
+        return null; // Failure: return null
     }
-    super.setBalance(super.getBalance() - amount);
-    return true;
+    double resultingBalance = this.getBalance() - amount;
+
+    if (resultingBalance < this.minimumBalance) {
+        System.out.printf(
+                " Withdrawal failed. Resulting balance ($%.2f)" +
+                        " would violate the minimum balance requirement ($%.2f).\n",
+                resultingBalance,
+                this.minimumBalance
+        );
+        return null;
+    }
+
+    // SUCCESS PATH
+    super.setBalance(resultingBalance);
+
+    // 4. CREATE and LOG TRANSACTION
+    Transaction newTransaction = new Transaction(
+            this.getAccountNumber(),
+            "Withdrawal",
+            amount,
+            resultingBalance // This is the balance AFTER the update
+    );
+    manager.addTransaction(newTransaction);
+
+    System.out.printf("✅ Withdrawal successful. New balance: $%.2f\n", resultingBalance);
+    return newTransaction;
 }
+
 
 //    Displaying the account detail;
     @Override
@@ -58,8 +85,33 @@ public boolean withdraw(double amount) {
        System.out.println("Minimum Balance: "+ getMinimumBalance());
     }
 
+    @Override
+    public Transaction deposit(double amount) {
+        // 1. VALIDATION: Check for positive amount
+        if (amount <= 0) {
+            System.out.println("❌ Deposit amount must be positive.");
+            return null;
+        }
 
-//    Calculating the interestRate;
+        // 2. UPDATE ACCOUNT BALANCE
+        this.setBalance(this.getBalance() + amount);
+
+        // 3. CREATE and LOG TRANSACTION
+        Transaction newTransaction = new Transaction(
+                this.getAccountNumber(),
+                "Deposit",
+                amount,
+                this.getBalance()
+        );
+
+        TransactionManager manager = new TransactionManager();
+        manager.addTransaction(newTransaction);
+        System.out.printf("✅ Deposit of $%,.2f successful. New balance: $%,.2f\n", amount, this.getBalance());
+        return newTransaction;
+    }
+
+
+    //    Calculating the interestRate;
     public double calculateInterest() {
         return this.interestRate * super.getBalance();
     }
@@ -76,10 +128,6 @@ public boolean withdraw(double amount) {
         return minimumBalance;
     }
 
-    @Override
-    public boolean deposit(double amount) {
-        return false;
-    }
 
 
     @Override
