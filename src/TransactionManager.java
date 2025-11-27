@@ -8,6 +8,7 @@ public class TransactionManager {
     public static TransactionManager getInstance() {
         return INSTANCE;
     }
+
     private final Transaction[] transactions = new Transaction[200];
     private int transactionCount = 0;
 
