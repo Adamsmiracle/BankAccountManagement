@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.util.Scanner;
 
 public class Main{
@@ -9,7 +8,7 @@ public class Main{
 
     public static void main(String[] args){
         accountManager = new AccountManager();
-        transactionManager =  new TransactionManager();
+        transactionManager = TransactionManager.getInstance();
 
 //        MAIN LOOP
         seedInitialData();
@@ -230,8 +229,12 @@ public class Main{
         accountNumber = getValidAccountNumber();
 
         Account account = accountManager.findAccount(accountNumber);
-
         System.out.println("\n");
+        if (account == null) {
+            System.out.println("Account not found. Aborting transaction.");
+            return false;
+        }
+
         System.out.println("Account Details:");
         System.out.println("Customer: "+ account.getCustomer().getName());
         System.out.println("Account Type: "+ account.getAccountType());
@@ -271,7 +274,7 @@ public class Main{
         System.out.println("TRANSACTION CONFIRMATION");
         System.out.println("-".repeat(63));
 
-        TransactionManager manager = new TransactionManager();
+        TransactionManager manager = TransactionManager.getInstance();
         manager.viewTransactionsByAccount(accountNumber);
 
         return false;

@@ -5,7 +5,7 @@ public class SavingsAccount extends Account {
     // --- Private Fields
     private final double interestRate;
     private final double minimumBalance;
-    private final TransactionManager manager = new TransactionManager();
+    private final TransactionManager manager = TransactionManager.getInstance();
 
     // Status can be managed by the parent class, but is included here for clarity
 
@@ -73,7 +73,7 @@ public class SavingsAccount extends Account {
                 this.getBalance()
         );
 
-        TransactionManager manager = new TransactionManager();
+        // Use shared TransactionManager instance
         manager.addTransaction(newTransaction);
         System.out.printf("✅ Deposit of $%,.2f successful. New balance: $%,.2f\n", amount, this.getBalance());
         return newTransaction;

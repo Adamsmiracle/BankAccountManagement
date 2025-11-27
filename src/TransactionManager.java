@@ -2,6 +2,12 @@ import java.time.format.DateTimeFormatter;
 
 public class TransactionManager {
 
+    // Singleton instance so all parts of the app record/query the same transactions
+    private static final TransactionManager INSTANCE = new TransactionManager();
+
+    public static TransactionManager getInstance() {
+        return INSTANCE;
+    }
     private final Transaction[] transactions = new Transaction[200];
     private int transactionCount = 0;
 

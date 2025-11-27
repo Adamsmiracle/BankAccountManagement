@@ -32,10 +32,11 @@ public class AccountManager {
                 "ACC NO", "CUSTOMER NAME", "TYPE", "BALANCE", "STATUS");
         System.out.println("-".repeat(83));
 
-        // Iterate only up to the actual number of accounts stored [cite: 409]
+        // Iterate only up to the actual number of accounts stored and compute total afresh
+        double totalBalanceLocal = 0.0;
         for (int i = 0; i < accountCount; i++) {
             Account account = accounts[i];
-            totalBalance += account.getBalance();
+            totalBalanceLocal += account.getBalance();
 
             // Line 1: Main Account Details
             System.out.printf("| %-8s | %-25s | %-12s | $%,-13.2f | %-8s |\n",
@@ -65,12 +66,17 @@ public class AccountManager {
 
         // Display required totals
         System.out.printf("\nTotal Accounts: %d\n", getAccountCount()); //
-        System.out.printf("Total Bank Balance: $%,.2f\n", getTotalBalance()); //
+        System.out.printf("Total Bank Balance: $%,.2f\n", totalBalanceLocal); //
     }
 
 
     public double getTotalBalance(){
-        return totalBalance;
+        // Compute total on demand to avoid accumulation bugs
+        double sum = 0.0;
+        for (int i = 0; i < accountCount; i++) {
+            sum += accounts[i].getBalance();
+        }
+        return sum;
     }
 
     public int getAccountCount() {

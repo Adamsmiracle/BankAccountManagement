@@ -4,7 +4,7 @@ public class CheckingAccount extends Account{
 
     private double overDraftLimit;
     private double monthlyFee;
-    private TransactionManager manager = new TransactionManager();
+    private TransactionManager manager = TransactionManager.getInstance();
 
 
     public CheckingAccount(Customer customer, double InitialDeposit) {
@@ -45,7 +45,8 @@ public class CheckingAccount extends Account{
                 amount,
                 this.getBalance()
         );
-        TransactionManager manager = new TransactionManager();
+        // Log transaction using shared manager
+        manager.addTransaction(newTransaction);
         return newTransaction;
 
     }
