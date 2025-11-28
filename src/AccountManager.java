@@ -1,5 +1,6 @@
 public class AccountManager {
-    // Singleton instance so the whole app uses a single account store
+
+    // Singleton instance
     private static final AccountManager INSTANCE = new AccountManager();
 
     public static AccountManager getInstance() {
@@ -8,11 +9,10 @@ public class AccountManager {
 
     private  Account[] accounts = new Account[50];
     
-    // Make constructor private to enforce singleton usage
     private AccountManager() {
     }
     private int accountCount = 0;
-    private double totalBalance = 0;
+    // private double totalBalance = 0.00;
 
 
 
@@ -43,11 +43,9 @@ public class AccountManager {
                 "ACC NO", "CUSTOMER NAME", "TYPE", "BALANCE", "STATUS");
         System.out.println("-".repeat(83));
 
-        // Iterate only up to the actual number of accounts stored and compute total afresh
-        double totalBalanceLocal = 0.0;
+        // Iterate only up to the actual number of accounts stored
         for (int i = 0; i < accountCount; i++) {
             Account account = accounts[i];
-            totalBalanceLocal += account.getBalance();
 
             // Line 1: Main Account Details
             System.out.printf("| %-8s | %-25s | %-12s | $%,-13.2f | %-8s |\n",
@@ -77,7 +75,7 @@ public class AccountManager {
 
         // Display required totals
         System.out.printf("\nTotal Accounts: %d\n", getAccountCount()); //
-        System.out.printf("Total Bank Balance: $%,.2f\n", totalBalanceLocal); //
+        System.out.printf("Total Bank Balance: $%,.2f\n", getTotalBalance()); //
     }
 
 

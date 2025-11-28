@@ -10,6 +10,7 @@ public final class InputUtils {
         return scanner.nextLine();
     }
 
+
     public static int readInt(String prompt) {
         while (true) {
             System.out.print(prompt);
@@ -22,12 +23,13 @@ public final class InputUtils {
         }
     }
 
+
     public static String getValidAccountNumber() {
         final String ACCOUNT_REGEX = "^ACC\\d{3}$";
         while (true) {
             String account = readLine("Enter Account Number (e.g., ACC001): ").trim().toUpperCase();
             if (account.matches(ACCOUNT_REGEX)) return account;
-            System.out.println("*** Invalid format. Account number must be ACC followed by three digits. ***");
+            System.out.println("Invalid account format. Account number must be ACC followed by three digits.");
         }
     }
 }
