@@ -4,7 +4,7 @@ public abstract class Account implements Transactable {
     //    private field
     private String accountNumber;
     private double balance;
-    private String status = "inactive";
+    private String status = "Active";
     private final Customer customer;
 
 

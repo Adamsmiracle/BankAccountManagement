@@ -36,9 +36,6 @@ public class SavingsAccount extends Account {
 
 
 
-//    The overridden withdraw method
-
-
 
 //    Displaying the account detail;
     @Override
@@ -59,7 +56,7 @@ public class SavingsAccount extends Account {
     public Transaction deposit(double amount) {
         // 1. VALIDATION: Check for positive amount
         if (amount <= 0) {
-            System.out.println("❌ Deposit amount must be positive.");
+            System.out.println("Deposit amount must be positive.");
             return null;
         }
 

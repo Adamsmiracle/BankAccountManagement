@@ -6,15 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="5625d2e3-da85-42c9-84e8-2e4f10b817c7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/BankAccountManagement/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BankAccountManagement/Account.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BankAccountManagement/AccountManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BankAccountManagement/AccountManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/BankAccountManagement/CheckingAccount.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BankAccountManagement/CheckingAccount.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/BankAccountManagement/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BankAccountManagement/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/BankAccountManagement/SavingsAccount.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BankAccountManagement/SavingsAccount.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BankAccountManagement/Transaction.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BankAccountManagement/Transaction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BankAccountManagement/TransactionManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BankAccountManagement/TransactionManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CheckingAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CheckingAccount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SavingsAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SavingsAccount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TransactionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TransactionManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
