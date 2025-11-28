@@ -14,7 +14,7 @@ public class Transaction {
     private double balanceAfter;
         private final LocalDateTime timestamp;
         private static final DateTimeFormatter TIMESTAMP_FORMATTER =
-            DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm a");
+            DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm:ss a");
 
     public Transaction(String accountNumber, String type, double amount, double balanceAfter) {
         transactionCounter++;
@@ -92,7 +92,7 @@ public class Transaction {
         this.balanceAfter = balanceAfter;
     }
 
-
-
-
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
 }

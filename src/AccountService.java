@@ -14,12 +14,8 @@ public class AccountService {
         accountManager.viewAllAccounts();
     }
 
-    public Transaction[] getTransactions(String accountNumber) {
-        return transactionManager.getTransactionsByAccount(accountNumber);
-    }
-
-    public void recordTransaction(Transaction transaction) {
-        transactionManager.addTransaction(transaction);
+    public void getTransactions(String accountNumber) {
+         transactionManager.viewTransactionsByAccount(accountNumber);
     }
 
     public boolean processTransaction(Account account, double amount, String type) {

@@ -1,10 +1,10 @@
 abstract class Customer {
 
 //    Static fields;
-    private static int custtomerCounter = 0;
+    private static int customerCounter = 0;
 
 //    private fields
-    private String customerId;
+    private final String customerId;
     private String name;
     private int age;
     private String contact;
@@ -15,6 +15,7 @@ abstract class Customer {
         this.age = age;
         this.contact = contact;
         this.address = address;
+        this.customerId = String.format("CUS%03d", customerCounter++);
     }
 
 //    SETTERS
@@ -50,6 +51,10 @@ abstract class Customer {
 
     public String getAddress() {
         return this.address;
+    }
+
+    public String getCustomerId(){
+        return this.customerId;
     }
 
 //    ABSTRACT METHODS

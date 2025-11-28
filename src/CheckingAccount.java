@@ -65,18 +65,17 @@ public class CheckingAccount extends Account{
 
     @Override
     public Transaction withdraw(double amount){
-        if (super.getBalance() - amount >= -overDraftLimit) {
-            this.setBalance(this.getBalance() - amount);
-        }
-
 
         if (amount <= 0) {
             System.out.println("Withdrawal amount must be positive.");
             return null; // Failure: return null
         }
 
+        if (super.getBalance() - amount >= -overDraftLimit) {
+            this.setBalance(this.getBalance() - amount);
+        }
 
-        // SUCCESS PATH
+
 
         // 4. CREATE and LOG TRANSACTION
         Transaction newTransaction = new Transaction(

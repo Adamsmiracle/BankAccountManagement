@@ -1,5 +1,8 @@
 // import java.time.format.DateTimeFormatter;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 public class TransactionManager {
 
     // Singleton instance so all parts of the app record/query the same transactions
@@ -22,48 +25,17 @@ public class TransactionManager {
         }
     }
 
-//Get transaction by account number
-    public Transaction[] getTransactionsByAccount(String accountNumber) {
-        int matchCount = 0;
-        for (int i = 0; i < transactionCount; i++) {
-            if (transactions[i].getAccountNumber().equalsIgnoreCase(accountNumber)) {
-                matchCount++;
-            }
-        }
-
-        // 2. Initialize the result array with the exact size needed
-        Transaction[] accountTransactions = new Transaction[matchCount];
-
-        // If no transactions are found, return the empty array immediately
-        if (matchCount == 0) {
-            return accountTransactions;
-        }
-
-        // 3. Second Pass: Copy the matching transactions into the result array
-        int resultIndex = 0;
-        for (int i = 0; i < transactionCount; i++) {
-            Transaction t = transactions[i];
-
-            if (t.getAccountNumber().equalsIgnoreCase(accountNumber)) {
-                accountTransactions[resultIndex] = t;
-                resultIndex++;
-            }
-        }
-
-        return accountTransactions;
-    }
 
 
-
-// Assuming Transaction has getters: getId(), getDateTime(), getType(), getAmount(), getBalanceAfter()
     public void viewTransactionsByAccount(String accountNumber) {
-        System.out.println("\n--- TRANSACTION HISTORY FOR ACCOUNT: " + accountNumber + " ---");
+        sortTransaction();
+        System.out.println("\nTRANSACTION HISTORY FOR ACCOUNT: " + accountNumber);
 
         // 1. Prepare Header
-        System.out.println("-".repeat(65));
+        System.out.println("-".repeat(78));
         System.out.printf("| %-6s | %-20s | %-10s | %-12s | %-10s |\n",
                 "ID", "TIMESTAMP", "TYPE", "AMOUNT", "BALANCE AFTER");
-        System.out.println("-".repeat(65));
+        System.out.println("-".repeat(78));
 
         // 2. Iterate and Filter
         boolean foundTransactions = false;
@@ -95,13 +67,12 @@ public class TransactionManager {
                 }
             }
         }
-
-        System.out.println("-".repeat(65));
+        System.out.println("-".repeat(78));
 
         // 3. Handle No Transactions Found
         if (!foundTransactions) {
             System.out.println("| No transactions found for this account.                             |");
-            System.out.println("-".repeat(65));
+            System.out.println("-".repeat(78));
         } else {
             // Print summary totals similar to screenshot: count, total deposits, total withdrawals, net change
             System.out.printf("\nTotal Transactions: %d\n", matchedCount);
@@ -109,6 +80,7 @@ public class TransactionManager {
             System.out.printf("Total Withdrawals: $%,.2f\n", totalWithdrawals);
             double net = totalDeposits - totalWithdrawals;
             System.out.printf("Net Change: $%,.2f\n", net);
+            System.out.println("Total Bank Transactions "+ transactionCount);
         }
     }
 
@@ -135,4 +107,18 @@ public class TransactionManager {
         }
         return totalWithdrawals;
     }
+
+
+    public int getTransactionCount(){
+        return transactionCount;
+    }
+
+
+    public void sortTransaction() {
+        Arrays.sort(transactions, 0, transactionCount,
+                Comparator.comparing(Transaction::getTimestamp).reversed()
+        );
+    }
+
+
 }

@@ -50,7 +50,7 @@ public abstract class Account implements Transactable {
         this.accountNumber = accountNumber;
     }
 
-    public void setBalance(double balance) {
+    protected void setBalance(double balance) {
         this.balance = balance;
     }
 

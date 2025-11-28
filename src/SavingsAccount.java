@@ -45,7 +45,7 @@ public class SavingsAccount extends Account {
        System.out.println("Customer: "+ getCustomer().getName());
        System.out.println("Account Type: "+ getAccountType());
     System.out.printf("Initial Balance: $%,.2f\n", getBalance());
-    System.out.printf("Interest Rate: %.1f%%\n", getInterestRate());
+    System.out.printf("Interest Rate: %.1f%%\n", getInterestRate() * 100);
     System.out.printf("Minimum Balance: $%,.2f\n", getMinimumBalance());
     System.out.printf("Status: "+ getStatus());
     }
@@ -73,7 +73,6 @@ public class SavingsAccount extends Account {
 
         // Use shared TransactionManager instance
         manager.addTransaction(newTransaction);
-        System.out.printf("✅ Deposit of $%,.2f successful. New balance: $%,.2f\n", amount, this.getBalance());
         return newTransaction;
     }
 
@@ -115,7 +114,7 @@ public class SavingsAccount extends Account {
 
     //    Calculating the interestRate;
     public double calculateInterest() {
-        return this.interestRate * super.getBalance();
+        return this.getInterestRate() * super.getBalance();
     }
 
 
@@ -123,7 +122,7 @@ public class SavingsAccount extends Account {
 
 
     public double getInterestRate() {
-        return interestRate*100;
+        return interestRate;
     }
 
     public double getMinimumBalance() {

@@ -2,7 +2,7 @@ public class Main{
     private static AccountService accountService;
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws InterruptedException {
         accountService = new AccountService();
 
 //        MAIN LOOP
@@ -37,28 +37,29 @@ public class Main{
                 break;
 
             case 4:
-                // Logic for US-4: View Transaction History
                 // Ask for account number, show account details and transaction history
-                System.out.println("\n--- VIEW TRANSACTION HISTORY ---");
+                System.out.println("\n VIEW TRANSACTION HISTORY ");
+                System.out.println("-".repeat(25));
                 String acct = InputUtils.getValidAccountNumber();
+                System.out.println("\n");
                 Account found = accountService.findAccount(acct);
                 if (found == null) {
                     System.out.println("Account not found.");
                 } else {
+
                     System.out.println("Account: " + found.getAccountNumber() + " - " + found.getCustomer().getName());
                     System.out.println("Account Type: " + found.getAccountType());
                     System.out.printf("Current Balance: $%,.2f\n", found.getBalance());
                     System.out.println();
-                    TransactionManager.getInstance().viewTransactionsByAccount(acct);
+                    accountService.getTransactions(acct);
                 }
-                InputUtils.readLine("Press Enter to continue...");
                 break;
             case 5:
                 // Exits the loop, allowing the main method to finish [cite: 321]
                 System.out.println("Exiting application...");
                 break;
             default:
-                System.out.println("\n*** Invalid choice. Please select an option between 1 and 5. ***\n");
+                System.out.println("\nInvalid choice. Please select an option between 1 and 5.\n");
         }
 
         // Wait for user before showing the menu again (mimics the console output style) [cite: 99]
@@ -68,7 +69,7 @@ public class Main{
     }
 
 
-    private static void seedInitialData(){
+    private static void seedInitialData() throws InterruptedException {
         RegularCustomer John = new RegularCustomer("John Smith", 45, "+1-555-1001", "12 Main St");
         RegularCustomer Adams = new RegularCustomer("Kofi Adams", 54, "+233-232-4545", "Dormaa Ahenkro");
         RegularCustomer Yaw = new RegularCustomer("Yaw Stephen", 24, "+233-333-4343", "Accra Central");
@@ -89,9 +90,13 @@ public class Main{
         Account acc001 = accountService.findAccount("ACC001");
         if (acc001 != null) {
             acc001.deposit(1000.00);
+            Thread.sleep(1000);
             acc001.deposit(1500.00);
+            Thread.sleep(100);
             acc001.withdraw(750.00);
+            Thread.sleep(100);
             acc001.deposit(2000.00);
+            Thread.sleep(100);
             acc001.withdraw(500.00);
         }
 
@@ -107,7 +112,7 @@ public class Main{
         System.out.println("1. Create Account");
         System.out.println("2. View Account");
         System.out.println("3. Process Transaction");
-        System.out.println("4. View Transactions");
+        System.out.println("4. View Transactions History");
         System.out.println("5. Exit");
         System.out.println("\n");
         System.out.print("");
@@ -148,12 +153,26 @@ public class Main{
         System.out.println("1. Regular Customer (Standard banking services");
         System.out.println("2. Premium Customer (Enhanced benefits, min balance %10,000");
         customerType = InputUtils.readInt("Select type (1-2): ");
+        while (customerType != 1 &&  customerType != 2)
+        {
+            System.out.println("Invalid customer type");
+            System.out.println("\n");
+            customerType = InputUtils.readInt("Select type (1-2): ");
+            System.out.println("\n");
+        }
 
         System.out.println("Account type: ");
         System.out.println("1. Savings Account (Interest: 3.5% Min Balance: %500");
         System.out.println("2. Checking Account (Overdraft: $1,000, Monthly Fee: $10");
         accountType = InputUtils.readInt("Select Type: (1-2): ");
         System.out.println("\n");
+        while (accountType != 1 &&  accountType != 2)
+        {
+            System.out.println("Invalid customer type");
+            System.out.println("\n");
+            accountType = InputUtils.readInt("Select type (1-2): ");
+            System.out.println("\n");
+        }
 
         // Read initial deposit as double with validation
         while (true) {
@@ -185,7 +204,6 @@ public class Main{
 
 
 //        Setting up the account;
-
 
         if(initialDeposit <= 0) {
             System.out.println("Initial deposit must be positive. Aborting account creation");
@@ -241,6 +259,14 @@ public class Main{
         System.out.println("2. Withdrawal");
         System.out.println("\n");
         int transactionTypeInput = InputUtils.readInt("Select type (1-2): ");
+        while (transactionTypeInput != 1 &&  transactionTypeInput != 2)
+        {
+            System.out.println("Invalid customer type");
+            System.out.println("\n");
+            transactionTypeInput = InputUtils.readInt("Select type (1-2): ");
+            System.out.println("\n");
+        }
+
 
         if (transactionTypeInput == 1){
             transactionType = "Deposit";
@@ -274,22 +300,20 @@ public class Main{
             return false;
         }
 
-        // Account-type specific validation
-        if (account instanceof SavingsAccount) {
-            SavingsAccount sa = (SavingsAccount) account;
+        // AccounType specific validation
+        if (account instanceof SavingsAccount sa) {
             if (newBalance < sa.getMinimumBalance()) {
                 System.out.printf("Withdrawal would violate minimum balance (%.2f). Aborting.\n", sa.getMinimumBalance());
                 return false;
             }
-        } else if (account instanceof CheckingAccount) {
-            CheckingAccount ca = (CheckingAccount) account;
+        } else if (account instanceof CheckingAccount ca) {
             if (newBalance < -ca.getOverDraftLimit()) {
                 System.out.println("Withdrawal would exceed overdraft limit. Aborting.");
                 return false;
             }
         }
 
-        // --- TRANSACTION CONFIRMATION --- (preview without constructing Transaction)
+        // TRANSACTION CONFIRMATION (preview without constructing Transaction)
         System.out.println("\n");
         System.out.println("TRANSACTION CONFIRMATION");
         System.out.println("-".repeat(63));
