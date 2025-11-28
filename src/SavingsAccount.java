@@ -42,7 +42,7 @@ public class SavingsAccount extends Account {
     public void displayAccountDetails() {
        System.out.println("✔ Account created successfully!");
        System.out.println("Account Number: "+ getAccountNumber());
-       System.out.println("Customer: "+ getCustomer().getName());
+       System.out.println("Customer: "+ " " + getCustomer().getCustomerId() + " - " + getCustomer().getName() + " (" + getCustomer().getCustomerType() + ")");
        System.out.println("Account Type: "+ getAccountType());
     System.out.printf("Initial Balance: $%,.2f\n", getBalance());
     System.out.printf("Interest Rate: %.1f%%\n", getInterestRate() * 100);
@@ -139,6 +139,8 @@ public class SavingsAccount extends Account {
             this.deposit(amount);
             return true;
         } else if (Objects.equals(type, "Withdrawal")) {
+            this.withdraw(amount);
+        } else if(Objects.equals(type, "Transfer")) {
             this.withdraw(amount);
         }
         return false;

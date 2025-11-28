@@ -18,13 +18,25 @@ public class AccountService {
          transactionManager.viewTransactionsByAccount(accountNumber);
     }
 
-    public boolean processTransaction(Account account, double amount, String type) {
+    public boolean processTransactionService(Account account, double amount, String type) {
         if (type.equalsIgnoreCase("Deposit")) {
             Transaction t = account.deposit(amount);
             return t != null;
         } else {
             Transaction t = account.withdraw(amount);
             return t != null;
+
         }
+    }
+
+
+//    Method for fund transfer.
+    public boolean transferMoney(String senderAccountNumber, String recipientAccountNumber, double amount){
+        Account sender = accountManager.findAccount(senderAccountNumber);
+        Account receiver = accountManager.findAccount(recipientAccountNumber);
+
+        sender.processTransaction(amount, "Transfer");
+        receiver.processTransaction(amount, "Deposit");
+        return true;
     }
 }

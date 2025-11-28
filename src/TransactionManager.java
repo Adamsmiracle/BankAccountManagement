@@ -30,25 +30,18 @@ public class TransactionManager {
     public void viewTransactionsByAccount(String accountNumber) {
         sortTransaction();
         System.out.println("\nTRANSACTION HISTORY FOR ACCOUNT: " + accountNumber);
-
-        // 1. Prepare Header
         System.out.println("-".repeat(78));
         System.out.printf("| %-6s | %-20s | %-10s | %-12s | %-10s |\n",
                 "ID", "TIMESTAMP", "TYPE", "AMOUNT", "BALANCE AFTER");
         System.out.println("-".repeat(78));
 
-        // 2. Iterate and Filter
         boolean foundTransactions = false;
 
         int matchedCount = 0;
-        double totalDeposits = 0.0;
-        double totalWithdrawals = 0.0;
-
         for (int i = 0; i < transactionCount; i++) {
             Transaction t = transactions[i];
 
             if (t.getAccountNumber().equalsIgnoreCase(accountNumber)) {
-                // Print the details directly using the table format
                 System.out.printf("| %-6s | %-20s | %-10s | $%-11.2f | $%-9.2f |\n",
                         t.getTransactionId(),
                         t.getFormattedTimestamp(),
@@ -60,11 +53,6 @@ public class TransactionManager {
                 matchedCount++;
                 foundTransactions = true;
 
-                if (t.getType().equalsIgnoreCase("DEPOSIT") || t.getType().equalsIgnoreCase("Deposit")) {
-                    totalDeposits += t.getAmount();
-                } else if (t.getType().equalsIgnoreCase("WITHDRAWAL") || t.getType().equalsIgnoreCase("Withdrawal")) {
-                    totalWithdrawals += t.getAmount();
-                }
             }
         }
         System.out.println("-".repeat(78));
@@ -76,30 +64,29 @@ public class TransactionManager {
         } else {
             // Print summary totals similar to screenshot: count, total deposits, total withdrawals, net change
             System.out.printf("\nTotal Transactions: %d\n", matchedCount);
-            System.out.printf("Total Deposits: $%,.2f\n", totalDeposits);
-            System.out.printf("Total Withdrawals: $%,.2f\n", totalWithdrawals);
-            double net = totalDeposits - totalWithdrawals;
+            System.out.printf("Total Deposits: $%,.2f\n",calculateTotalDeposits());
+            System.out.printf("Total Withdrawals: $%,.2f\n", calculateTotalWithdrawals());
+            double net = calculateTotalDeposits() - calculateTotalWithdrawals();
             System.out.printf("Net Change: $%,.2f\n", net);
-            System.out.println("Total Bank Transactions "+ transactionCount);
         }
     }
 
 
     public double calculateTotalDeposits() {
-        double totalDeposits = 0.0;
+        double totalDeposit = 0.0;
         for (int i = 0; i < transactionCount; i++) {
             Transaction t = transactions[i];
             if (t.getType().equalsIgnoreCase("DEPOSIT")) {
-                totalDeposits += t.getAmount();
+                totalDeposit += t.getAmount();
             }
         }
-        return totalDeposits;
+        return totalDeposit;
     }
 
 
     public double calculateTotalWithdrawals() {
         double totalWithdrawals = 0.0;
-        for (int i = 0; i < transactionCount; i++) {
+        for (int i = 0; i < getTransactionCount(); i++) {
             Transaction t = transactions[i];
             if (t.getType().equalsIgnoreCase("WITHDRAWAL")) {
                 totalWithdrawals += t.getAmount();

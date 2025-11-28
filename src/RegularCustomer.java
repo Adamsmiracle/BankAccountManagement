@@ -5,7 +5,7 @@ public class RegularCustomer extends Customer {
 
     @Override
     public void displayCustomerDetails() {
-        System.out.println("Display the Regular customer detail");
+        System.out.println("Customer: "+ this.getCustomerId() + " " + this.getName());
     }
 
     @Override

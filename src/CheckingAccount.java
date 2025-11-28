@@ -20,7 +20,7 @@ public class CheckingAccount extends Account{
     public void displayAccountDetails() {
         System.out.println("✔ Account created successfully!");
         System.out.println("Account Number: "+ getAccountNumber());
-        System.out.println("Customer: "+ getCustomer().getName());
+        System.out.println("Customer: "+ " " + getCustomer().getCustomerId() + " - " + getCustomer().getName() + " (" + getCustomer().getCustomerType() + ")");
         System.out.println("Account Type: "+ getAccountType());
         System.out.println("Initial Balance: "+ getBalance());
         System.out.println("OverdraftLimit: $" + String.format("%,.2f", getOverDraftLimit()));
@@ -31,6 +31,7 @@ public class CheckingAccount extends Account{
             System.out.printf("Monthly fee: $%,.2f\n", getMonthlyFee());
         }
         System.out.println("Status: "+ getStatus());
+        System.out.println("\n");
     }
 
 
@@ -124,7 +125,9 @@ public class CheckingAccount extends Account{
         } else if (Objects.equals(type, "Withdrawal")) {
             this.withdraw(amount);
             return true;
-            }
+            } else if (Objects.equals(type, "Transfer")) {
+            this.withdraw(amount);
+        }
         return false;
     }
 }

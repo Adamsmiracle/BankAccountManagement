@@ -27,6 +27,12 @@ public class Transaction {
 
     }
 
+    public static String getNextTransactionId() {
+        // transactionCounter holds the count of existing transactions.
+        // The next transaction will be counter + 1.
+        return String.format("TXN%03d", transactionCounter + 1);
+    }
+
     //    METHODS
     public void displayTransactionDetails() {
         // Format the amount to show +/- sign and 2 decimal places

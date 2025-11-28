@@ -24,10 +24,15 @@ public final class InputUtils {
     }
 
 
-    public static String getValidAccountNumber() {
+    public static String getValidAccountNumber(String transfer) {
         final String ACCOUNT_REGEX = "^ACC\\d{3}$";
         while (true) {
-            String account = readLine("Enter Account Number (e.g., ACC001): ").trim().toUpperCase();
+            String account;
+            if (transfer.equalsIgnoreCase("transfer")) {
+                account = readLine("Enter the recipient's Account Number: ");
+            } else {
+                account = readLine("Enter Account Number (e.g., ACC001): ").trim().toUpperCase();
+            }
             if (account.matches(ACCOUNT_REGEX)) return account;
             System.out.println("Invalid account format. Account number must be ACC followed by three digits.");
         }

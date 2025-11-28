@@ -40,7 +40,7 @@ public class Main{
                 // Ask for account number, show account details and transaction history
                 System.out.println("\n VIEW TRANSACTION HISTORY ");
                 System.out.println("-".repeat(25));
-                String acct = InputUtils.getValidAccountNumber();
+                String acct = InputUtils.getValidAccountNumber("user");
                 System.out.println("\n");
                 Account found = accountService.findAccount(acct);
                 if (found == null) {
@@ -110,7 +110,7 @@ public class Main{
         System.out.println("||                   BANK ACCOUNT MANAGEMENT                  ||");
         System.out.println("-".repeat(65));
         System.out.println("1. Create Account");
-        System.out.println("2. View Account");
+        System.out.println("2. View Accounts");
         System.out.println("3. Process Transaction");
         System.out.println("4. View Transactions History");
         System.out.println("5. Exit");
@@ -204,7 +204,6 @@ public class Main{
 
 
 //        Setting up the account;
-
         if(initialDeposit <= 0) {
             System.out.println("Initial deposit must be positive. Aborting account creation");
         }
@@ -228,6 +227,7 @@ public class Main{
     public static boolean processTransactionMain(){
         String accountNumber = "";
         String transactionType = "";
+        String recipientAccountNumber = "";
         double amount = 0.00;
 
         // 1. INPUT AND ACCOUNT RETRIEVAL
@@ -236,7 +236,7 @@ public class Main{
         System.out.println("\n");
 
         // Calling the getAccountNumber utility
-        accountNumber = InputUtils.getValidAccountNumber();
+        accountNumber = InputUtils.getValidAccountNumber("user");
 
         Account account = accountService.findAccount(accountNumber);
         System.out.println("\n");
@@ -257,35 +257,43 @@ public class Main{
         System.out.println("Transaction type: ");
         System.out.println("1. Deposit");
         System.out.println("2. Withdrawal");
+        System.out.println("3. Transfer");
         System.out.println("\n");
         int transactionTypeInput = InputUtils.readInt("Select type (1-2): ");
-        while (transactionTypeInput != 1 &&  transactionTypeInput != 2)
+        while (transactionTypeInput != 1 &&  transactionTypeInput != 2 && transactionTypeInput != 3)
         {
-            System.out.println("Invalid customer type");
+            System.out.println("Invalid transactionType type");
             System.out.println("\n");
-            transactionTypeInput = InputUtils.readInt("Select type (1-2): ");
+            transactionTypeInput = InputUtils.readInt("Select type (1-3): ");
             System.out.println("\n");
         }
 
 
         if (transactionTypeInput == 1){
             transactionType = "Deposit";
-        } else {
+        } else if(transactionTypeInput == 2) {
             transactionType = "Withdrawal";
+        } else {
+            transactionType = "Transfer";
         }
+
+//        Get the recipient account number
+        recipientAccountNumber = InputUtils.getValidAccountNumber("Transfer");
+
 
         // Read amount with validation
         while (true) {
             try {
                 String s = InputUtils.readLine("Enter amount: $");
                 amount = Double.parseDouble(s);
+
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid amount. Please enter a valid number.");
             }
         }
 
-        // 3. PREVIEW & VALIDATE TRANSACTION
+//        Calculate the new balance for display purposes and verification purpose
         double newBalance;
         if (transactionType.equalsIgnoreCase("Deposit")) {
             newBalance = previousBalance + amount;
@@ -294,13 +302,13 @@ public class Main{
         }
 
 
-        // Basic validation
+        // Amount validation
         if (amount <= 0) {
             System.out.println("Amount must be positive. Aborting transaction.");
             return false;
         }
 
-        // AccounType specific validation
+        // validation
         if (account instanceof SavingsAccount sa) {
             if (newBalance < sa.getMinimumBalance()) {
                 System.out.printf("Withdrawal would violate minimum balance (%.2f). Aborting.\n", sa.getMinimumBalance());
@@ -313,11 +321,10 @@ public class Main{
             }
         }
 
-        // TRANSACTION CONFIRMATION (preview without constructing Transaction)
         System.out.println("\n");
         System.out.println("TRANSACTION CONFIRMATION");
         System.out.println("-".repeat(63));
-        System.out.println("Transaction ID: (assigned on confirmation)");
+        System.out.println("Transaction ID:"+ Transaction.getNextTransactionId());
         System.out.println("Account: " + accountNumber);
         System.out.println("Type: " + transactionType.toUpperCase());
         System.out.printf("Amount: $%,.2f\n", amount);
@@ -328,7 +335,12 @@ public class Main{
 
         if (confirm.equalsIgnoreCase("Y")) {
             // Apply the appropriate transaction type via AccountService
-            boolean ok = accountService.processTransaction(account, amount, transactionType);
+            boolean ok = false;
+            if (transactionType.equalsIgnoreCase("Transfer")) {
+                ok = accountService.transferMoney(accountNumber, recipientAccountNumber, amount);
+            } else {
+                ok = accountService.processTransactionService(account, amount, transactionType);
+            }
             if (ok) {
                 System.out.println("\u2713 Transaction completed successfully!\n");
             } else {
