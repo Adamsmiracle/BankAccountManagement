@@ -12,7 +12,6 @@ public abstract class Account implements Transactable {
         accountCounter++;
         this.customer = customer;
         this.accountNumber = String.format("ACC%03d", accountCounter);
-        this.balance = 0.0;
     }
 
 
