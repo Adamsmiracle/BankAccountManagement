@@ -42,10 +42,7 @@ public class CheckingAccount extends Account{
             return null;
         }
 
-//        update the account balance;
         this.setBalance(this.getBalance() + amount);
-
-//        Logging the transaction
         Transaction newTransaction = new Transaction(
                 this.getAccountNumber(),
                 "Deposit",
@@ -58,38 +55,41 @@ public class CheckingAccount extends Account{
 
     }
 
+
     @Override
     public String getAccountType(){
         return "Checking";
     }
 
 
-    @Override
-    public Transaction withdraw(double amount){
+@Override
+public Transaction withdraw(double amount){
+    if (amount <= 0) {
+        System.out.println("Withdrawal amount must be positive.");
+        return null;
+    }
+    if (super.getBalance() - amount >= -overDraftLimit) {
+        this.setBalance(this.getBalance() - amount);
 
-        if (amount <= 0) {
-            System.out.println("Withdrawal amount must be positive.");
-            return null; // Failure: return null
-        }
-
-        if (super.getBalance() - amount >= -overDraftLimit) {
-            this.setBalance(this.getBalance() - amount);
-        }
-
-
-
-        // 4. CREATE and LOG TRANSACTION
         Transaction newTransaction = new Transaction(
-                this.getAccountNumber(),
-                "Withdrawal",
-                amount,
-                this.getBalance()
+            this.getAccountNumber(),
+            "Withdrawal",
+            amount,
+            this.getBalance()
         );
         manager.addTransaction(newTransaction);
-
-        System.out.printf("✅ Withdrawal successful. New balance: $%.2f\n", this.getBalance());
+        
+        System.out.printf("Withdrawal successful. New balance: $%,.2f\n", this.getBalance());
         return newTransaction;
+
+    } else {
+        System.out.printf("Withdrawal failed. Resulting balance ($%,.2f) would exceed the overdraft limit ($%,.2f).\n",
+                (super.getBalance() - amount),
+                overDraftLimit
+        );
+        return null;
     }
+}
 
 
     public boolean applyMonthlyFee(){
@@ -123,10 +123,11 @@ public class CheckingAccount extends Account{
             this.deposit(amount);
             return true;
         } else if (Objects.equals(type, "Withdrawal")) {
-            this.withdraw(amount);
-            return true;
-            } else if (Objects.equals(type, "Transfer")) {
-            this.withdraw(amount);
+            Transaction result = this.withdraw(amount);
+            return result != null;
+        } else if (Objects.equals(type, "Transfer")) {
+            Transaction result = this.withdraw(amount);
+            return result != null;
         }
         return false;
     }
