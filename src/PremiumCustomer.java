@@ -6,10 +6,17 @@ public class PremiumCustomer extends Customer {
     }
 
 
-    // TODO: implement this when everything else works
-    @Override
+   @Override
     public void displayCustomerDetails() {
-        System.out.println("Premium customer details");
+        System.out.println("-".repeat(30));
+        System.out.println("CUSTOMER DETAILS");
+        System.out.println("ID: " + getCustomerId());
+        System.out.println("Type: " + getCustomerType());
+        System.out.println("Name: " + getName());
+        System.out.println("Age: " + getAge());
+        System.out.println("Contact: " + getContact());
+        System.out.println("Address: " + getAddress());
+        System.out.println("-".repeat(30));
     }
 
     @Override

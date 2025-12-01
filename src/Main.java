@@ -138,14 +138,54 @@ public class Main{
         System.out.println("\n");
 
 //        Taking the customer detail input
-        name = InputUtils.readLine("Enter customer name: ");
+
+// Customer name input
+while (true) {
+    name = InputUtils.readLine("Enter customer name: ");
+    final String NAME_REGEX = "^[A-Za-z][A-Za-z'-]*(?:\\s[A-Za-z][A-Za-z'-]*)+$";
+
+    if (name.matches(NAME_REGEX)) {
+        break;   // only break if name is valid
+    } else {
+        System.out.println("Invalid name format: FirstName, SurName and third name if applicable");
+    }
+}
+
 
 //        input age checker
         age = InputUtils.readInt("Enter customer age: ");
 
-        contact = InputUtils.readLine("Enter customer contact: ");
 
+    while (true) {
+    contact = InputUtils.readLine("Enter customer contact: ");
+    
+    final String CONTACT_REGEX =
+        "^(?:"
+        + "0(?:24|54|55|59|25|20|50|26|56|57|23)[\\s-]?\\d{3}[\\s-]?\\d{4}"   // Local formats
+        + "|(?:\\+233|233|00233)(?:24|54|55|59|25|20|50|26|56|57|23)[\\s-]?\\d{3}[\\s-]?\\d{4}" 
+        +"\10d" // International formats
+        + ")$";
+
+    if (contact.matches(CONTACT_REGEX)) {
+        break; 
+    } else {
+        System.out.println("Invalid contact format. Examples: 0241234567, +233241234567, 024-123-4567");
+    }
+}
+
+
+
+    while (true) {
         address = InputUtils.readLine("Enter customer address: ");
+        final String ADDRESS_REGEX = "^[A-Za-z0-9][A-Za-z0-9\\s,.'\\-/#]{4,99}$";
+        if (address.matches(ADDRESS_REGEX)) {
+            break;
+        }else {
+            System.out.println("Enter valid address format (eg: 123 Oak Street, Springfield)");
+        }
+        
+        
+    }
         System.out.println("\n");
 
 //        Selecting account type;
@@ -191,10 +231,12 @@ public class Main{
             case 1:
                 // RegularCustomer extends Customer
                 customer = new RegularCustomer(name, age, contact, address);
+                // customer.displayCustomerDetails();
                 break;
             case 2:
                 // PremiumCustomer extends Customer
                 customer = new PremiumCustomer(name, age, contact, address);
+                // customer.displayCustomerDetails();
                 break;
             default:
                 System.out.println("Invalid Customer type selected. Aborting account creation.");

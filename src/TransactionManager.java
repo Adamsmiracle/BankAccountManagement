@@ -1,5 +1,3 @@
-// import java.time.format.DateTimeFormatter;
-
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -26,9 +24,11 @@ public class TransactionManager {
     }
 
 
-
     public void viewTransactionsByAccount(String accountNumber) {
-        sortTransaction();
+        // NOTE: Remember you must add the getTimestamp() method to Transaction.java
+        // before the sortTransaction() method will compile and work.
+        sortTransaction(); 
+
         System.out.println("\nTRANSACTION HISTORY FOR ACCOUNT: " + accountNumber);
         System.out.println("-".repeat(78));
         System.out.printf("| %-6s | %-20s | %-10s | %-12s | %-10s |\n",
@@ -37,6 +37,10 @@ public class TransactionManager {
 
         boolean foundTransactions = false;
 
+        // --- NEW LOCAL VARIABLES TO TRACK ACCOUNT-SPECIFIC TOTALS ---
+        double accountDeposits = 0.0;
+        double accountWithdrawals = 0.0;
+        
         int matchedCount = 0;
         for (int i = 0; i < transactionCount; i++) {
             Transaction t = transactions[i];
@@ -52,7 +56,13 @@ public class TransactionManager {
 
                 matchedCount++;
                 foundTransactions = true;
-
+                
+                // --- ACCUMULATE ACCOUNT-SPECIFIC TOTALS ---
+                if (t.getType().equalsIgnoreCase("DEPOSIT") || t.getType().equalsIgnoreCase("Transfer In")) {
+                    accountDeposits += t.getAmount();
+                } else if (t.getType().equalsIgnoreCase("WITHDRAWAL") || t.getType().equalsIgnoreCase("Transfer Out")) {
+                    accountWithdrawals += t.getAmount();
+                }
             }
         }
         System.out.println("-".repeat(78));
@@ -62,37 +72,14 @@ public class TransactionManager {
             System.out.println("| No transactions found for this account.                             |");
             System.out.println("-".repeat(78));
         } else {
-            // Print summary totals similar to screenshot: count, total deposits, total withdrawals, net change
+            // --- USE ACCOUNT-SPECIFIC TOTALS FOR SUMMARY ---
             System.out.printf("\nTotal Transactions: %d\n", matchedCount);
-            System.out.printf("Total Deposits: $%,.2f\n",calculateTotalDeposits());
-            System.out.printf("Total Withdrawals: $%,.2f\n", calculateTotalWithdrawals());
-            double net = calculateTotalDeposits() - calculateTotalWithdrawals();
+            System.out.printf("Total Deposits: $%,.2f\n", accountDeposits);
+            System.out.printf("Total Withdrawals: $%,.2f\n", accountWithdrawals);
+            double net = accountDeposits - accountWithdrawals;
             System.out.printf("Net Change: $%,.2f\n", net);
+            System.out.printf("Total Bank Transactions: %d\n", transactionCount);
         }
-    }
-
-
-    public double calculateTotalDeposits() {
-        double totalDeposit = 0.0;
-        for (int i = 0; i < transactionCount; i++) {
-            Transaction t = transactions[i];
-            if (t.getType().equalsIgnoreCase("DEPOSIT")) {
-                totalDeposit += t.getAmount();
-            }
-        }
-        return totalDeposit;
-    }
-
-
-    public double calculateTotalWithdrawals() {
-        double totalWithdrawals = 0.0;
-        for (int i = 0; i < getTransactionCount(); i++) {
-            Transaction t = transactions[i];
-            if (t.getType().equalsIgnoreCase("WITHDRAWAL")) {
-                totalWithdrawals += t.getAmount();
-            }
-        }
-        return totalWithdrawals;
     }
 
 
@@ -102,10 +89,11 @@ public class TransactionManager {
 
 
     public void sortTransaction() {
+        // NOTE: This will only work if you add the getTimestamp() method to Transaction.java
         Arrays.sort(transactions, 0, transactionCount,
                 Comparator.comparing(Transaction::getTimestamp).reversed()
         );
     }
-
-
 }
+
+// *** NOTE: The flawed methods calculateTotalDeposits() and calculateTotalWithdrawals() have been removed. ***
