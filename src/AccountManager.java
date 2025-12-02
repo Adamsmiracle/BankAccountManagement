@@ -60,9 +60,10 @@ public class AccountManager {
             if (account instanceof SavingsAccount savingsAccount) {
                 System.out.printf("| %-8s | Interest Rate: %.1f%% | Min Balance: $%,.2f |\n",
                         "",
-                        savingsAccount.getInterestRate(),
+                        savingsAccount.getInterestRate() * 100,
                         savingsAccount.getMinimumBalance()
                 );
+
             } else if (account instanceof CheckingAccount checkingAccount) {
                 System.out.printf("| %-8s | Overdraft Limit: $%,.2f | Monthly Fee: $%,.2f |\n",
                         "",

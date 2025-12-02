@@ -3,18 +3,18 @@ import java.time.format.DateTimeFormatter;
 
 public class Transaction {
 
-//    Static fields
+    // Static fields
     private static int transactionCounter;
 
-//    Private fields;
+    // Private fields
     private final String transactionId;
     private String accountNumber;
     private String type;
     private double amount;
     private double balanceAfter;
-        private final LocalDateTime timestamp;
-        private static final DateTimeFormatter TIMESTAMP_FORMATTER =
-            DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm:ss a");
+    private final LocalDateTime timestamp;
+    private static final DateTimeFormatter TIMESTAMP_FORMATTER =
+        DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm:ss a");
 
     public Transaction(String accountNumber, String type, double amount, double balanceAfter) {
         transactionCounter++;
@@ -24,24 +24,27 @@ public class Transaction {
         this.amount = amount;
         this.balanceAfter = balanceAfter;
         this.timestamp = LocalDateTime.now();
-
     }
 
     public static String getNextTransactionId() {
-        // transactionCounter holds the count of existing transactions.
-        // The next transaction will be counter + 1.
         return String.format("TXN%03d", transactionCounter + 1);
     }
 
-    //    METHODS
+    // METHODS
     public void displayTransactionDetails() {
-        // Format the amount to show +/- sign and 2 decimal places
-        String sign = this.type.equals("Deposit") ? "+" : "-";
+        // Determine sign based on transaction type
+        String sign;
+        if (this.type.equalsIgnoreCase("Deposit") || this.type.equalsIgnoreCase("Transfer In")) {
+            sign = "+";
+        } else {
+            sign = "-";
+        }
+        
         String formattedAmount = String.format("%s$%.2f", sign, this.amount);
         String formattedBalance = String.format("$%.2f", this.balanceAfter);
 
         // Formatting columns for console output
-        System.out.printf("| %-6s | %-20s | %-10s | %-12s | %-10s |\n",
+        System.out.printf("| %-6s | %-20s | %-13s | %-12s | %-10s |\n",
                 transactionId,
                 getFormattedTimestamp(),
                 type,
@@ -53,14 +56,10 @@ public class Transaction {
         return this.timestamp.format(TIMESTAMP_FORMATTER);
     }
 
-
-
-
-//    GETTERS AND SETTERS
+    // GETTERS AND SETTERS
     public static int getTransactionCounter() {
         return transactionCounter;
     }
-
 
     public String getTransactionId() {
         return transactionId;

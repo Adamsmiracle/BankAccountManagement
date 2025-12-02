@@ -14,19 +14,15 @@ public abstract class Account implements Transactable {
         this.accountNumber = String.format("ACC%03d", accountCounter);
     }
 
-
-
-
-
-
-    public abstract  Transaction deposit(double amount);
-
-
+    // Abstract methods for deposit and withdraw
+    public abstract Transaction deposit(double amount);
     public abstract Transaction withdraw(double amount);
+    
+    // Overloaded methods with transaction type for transfers
+    public abstract Transaction depositWithType(double amount, String transactionType);
+    public abstract Transaction withdrawWithType(double amount, String transactionType);
 
-
-
-//    GETTERS
+    // GETTERS
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -43,9 +39,7 @@ public abstract class Account implements Transactable {
         return status;
     }
 
-
-
-//    SETTERS
+    // SETTERS
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
@@ -58,14 +52,47 @@ public abstract class Account implements Transactable {
         this.status = status;
     }
 
-
-//    ABSTRACT METHODS
-
+    // ABSTRACT METHODS
     public abstract String getAccountType();
+    
+    // Template method for displaying account details
+    public void displayAccountDetails() {
+        System.out.println("✔ Account created successfully!");
+        System.out.println("Account Number: " + getAccountNumber());
+        System.out.println("Customer: " + getCustomer().getCustomerId() + " - " + 
+                          getCustomer().getName() + " (" + getCustomer().getCustomerType() + ")");
+        System.out.println("Account Type: " + getAccountType());
+        System.out.printf("Initial Balance: $%,.2f\n", getBalance());
+        
+        // Call abstract method for account-specific details
+        displaySpecificDetails();
+        
+        System.out.println("Status: " + getStatus());
+        System.out.println("\n");
+    }
+    
+    // Abstract method for subclass-specific details
+    protected abstract void displaySpecificDetails();
 
-
-    //    The overridden withdraw method
-
-    public abstract void displayAccountDetails();
-
+    // IMPLEMENTATION OF TRANSACTABLE INTERFACE
+    @Override
+    public boolean processTransaction(double amount, String type) {
+        if (amount < 0) {
+            return false;
+        }
+        
+        Transaction result = null;
+        
+        if (type.equalsIgnoreCase("Deposit")) {
+            result = this.deposit(amount);
+        } else if (type.equalsIgnoreCase("Withdrawal")) {
+            result = this.withdraw(amount);
+        } else if (type.equalsIgnoreCase("Transfer Out")) {
+            result = this.withdrawWithType(amount, "Transfer Out");
+        } else if (type.equalsIgnoreCase("Transfer In")) {
+            result = this.depositWithType(amount, "Transfer In");
+        }
+        
+        return result != null;
+    }
 }

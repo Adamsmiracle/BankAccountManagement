@@ -10,7 +10,6 @@ public final class InputUtils {
         return scanner.nextLine();
     }
 
-
     public static int readInt(String prompt) {
         while (true) {
             System.out.print(prompt);
