@@ -89,15 +89,14 @@ public class Main{
         // Apply transactions to ACC001 to demonstrate transaction history
         Account acc001 = accountService.findAccount("ACC001");
         if (acc001 != null) {
-            acc001.deposit(1000.00);
-            Thread.sleep(1000);
             acc001.deposit(1500.00);
-            Thread.sleep(100);
+            Thread.sleep(1000);
             acc001.withdraw(750.00);
             Thread.sleep(100);
             acc001.deposit(2000.00);
             Thread.sleep(100);
-            acc001.withdraw(500.00);
+            acc001.withdraw(2000.00);
+            Thread.sleep(100);
         }
 
     }
