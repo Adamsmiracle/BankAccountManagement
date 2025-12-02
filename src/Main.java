@@ -78,10 +78,10 @@ public class Main{
 
 
 //        creating accounts for the customers
-        accountService.addAccount(new SavingsAccount(John, 5250.00));
+        accountService.addAccount(new SavingsAccount(John, 4500.00));
         accountService.addAccount(new CheckingAccount(Adams, 3450.00));
-        accountService.addAccount(new SavingsAccount(Yaw, 15750.34));
-        accountService.addAccount(new CheckingAccount(Miracle, 890.89));
+        accountService.addAccount(new SavingsAccount(Yaw, 15750.00));
+        accountService.addAccount(new CheckingAccount(Miracle, 890.00));
         accountService.addAccount(new SavingsAccount(Ronja, 25300.00));
 
 
