@@ -6,7 +6,7 @@ public class Main{
         accountService = new AccountService();
 
 //        MAIN LOOP
-        seedInitialData();
+//        seedInitialData();
         runMainMenu();
 
     }
@@ -69,37 +69,37 @@ public class Main{
     }
 
 
-    private static void seedInitialData() throws InterruptedException {
-        RegularCustomer John = new RegularCustomer("John Smith", 45, "+1-555-1001", "12 Main St");
-        RegularCustomer Adams = new RegularCustomer("Kofi Adams", 54, "+233-232-4545", "Dormaa Ahenkro");
-        RegularCustomer Yaw = new RegularCustomer("Yaw Stephen", 24, "+233-333-4343", "Accra Central");
-        PremiumCustomer Miracle = new PremiumCustomer("Adams Miracle", 26, "+233-537-6024", "Kotei Kumasi");
-        PremiumCustomer Ronja = new PremiumCustomer("Ronja Scott", 33, "+49-443-3222", "liepzip Germany");
-
-
-//        creating accounts for the customers
-        accountService.addAccount(new SavingsAccount(John, 4500.00));
-        accountService.addAccount(new CheckingAccount(Adams, 3450.00));
-        accountService.addAccount(new SavingsAccount(Yaw, 15750.00));
-        accountService.addAccount(new CheckingAccount(Miracle, 890.00));
-        accountService.addAccount(new SavingsAccount(Ronja, 25300.00));
-
-
-//      Making some transactions using the transaction manager
-        // Apply transactions to ACC001 to demonstrate transaction history
-        Account acc001 = accountService.findAccount("ACC001");
-        if (acc001 != null) {
-            acc001.deposit(1500.00);
-            Thread.sleep(1000);
-            acc001.withdraw(750.00);
-            Thread.sleep(100);
-            acc001.deposit(2000.00);
-            Thread.sleep(100);
-            acc001.withdraw(2000.00);
-            Thread.sleep(100);
-        }
-
-    }
+//    private static void seedInitialData() throws InterruptedException {
+//        RegularCustomer John = new RegularCustomer("John Smith", 45, "+1-555-1001", "12 Main St");
+//        RegularCustomer Adams = new RegularCustomer("Kofi Adams", 54, "+233-232-4545", "Dormaa Ahenkro");
+//        RegularCustomer Yaw = new RegularCustomer("Yaw Stephen", 24, "+233-333-4343", "Accra Central");
+//        PremiumCustomer Miracle = new PremiumCustomer("Adams Miracle", 26, "+233-537-6024", "Kotei Kumasi");
+//        PremiumCustomer Ronja = new PremiumCustomer("Ronja Scott", 33, "+49-443-3222", "liepzip Germany");
+//
+//
+////        creating accounts for the customers
+//        accountService.addAccount(new SavingsAccount(John, 4500.00));
+//        accountService.addAccount(new CheckingAccount(Adams, 3450.00));
+//        accountService.addAccount(new SavingsAccount(Yaw, 15750.00));
+//        accountService.addAccount(new CheckingAccount(Miracle, 890.00));
+//        accountService.addAccount(new SavingsAccount(Ronja, 25300.00));
+//
+//
+////      Making some transactions using the transaction manager
+//        // Apply transactions to ACC001 to demonstrate transaction history
+//        Account acc001 = accountService.findAccount("ACC001");
+//        if (acc001 != null) {
+//            acc001.deposit(1500.00);
+//            Thread.sleep(1000);
+//            acc001.withdraw(750.00);
+//            Thread.sleep(100);
+//            acc001.deposit(2000.00);
+//            Thread.sleep(100);
+//            acc001.withdraw(2000.00);
+//            Thread.sleep(100);
+//        }
+//
+//    }
 
 
 

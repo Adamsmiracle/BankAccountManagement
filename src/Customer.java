@@ -1,5 +1,6 @@
 abstract class Customer {
 
+
 //    Static fields;
     private static int customerCounter = 0;
 
