@@ -15,7 +15,7 @@ abstract class Customer {
         this.age = age;
         this.contact = contact;
         this.address = address;
-        this.customerId = String.format("CUS%03d", customerCounter++);
+        this.customerId = String.format("CUS%03d", ++customerCounter);
     }
 
 //    SETTERS
