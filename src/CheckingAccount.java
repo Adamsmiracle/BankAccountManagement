@@ -115,7 +115,7 @@ public class CheckingAccount extends Account {
 
     @Override
     public Transaction depositWithType(double amount, String transactionType) {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method
         throw new UnsupportedOperationException("Unimplemented method 'depositWithType'");
     }
 
@@ -123,7 +123,7 @@ public class CheckingAccount extends Account {
 
     @Override
     public Transaction withdrawWithType(double amount, String transactionType) {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method
         throw new UnsupportedOperationException("Unimplemented method 'withdrawWithType'");
     }
 

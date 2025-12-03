@@ -6,12 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5625d2e3-da85-42c9-84e8-2e4f10b817c7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/BankAccountManagement/Customer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BankAccountManagement/Customer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/BankAccountManagement/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BankAccountManagement/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CheckingAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CheckingAccount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SavingsAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SavingsAccount.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +54,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feature/transfer",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -87,7 +82,7 @@
       <option name="presentableId" value="Default" />
       <updated>1764103709290</updated>
       <workItem from="1764320015499" duration="27505000" />
-      <workItem from="1764579133252" duration="16577000" />
+      <workItem from="1764579133252" duration="20855000" />
     </task>
     <servers />
   </component>
@@ -110,7 +105,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Main.java</url>
-          <line>72</line>
+          <line>56</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
