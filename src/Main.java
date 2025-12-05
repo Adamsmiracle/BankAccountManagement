@@ -268,7 +268,7 @@ public class Main{
                     newBalance = previousBalance - amount;
                 }
 
-                // Validate based on account type
+                // Validate amount based on account type
                 boolean validAmount = true;
                 if (transactionType.equalsIgnoreCase("Withdrawal") || transactionType.equalsIgnoreCase("Transfer")) {
                     if (account instanceof SavingsAccount sa) {
